@@ -4,13 +4,13 @@ This document provides guidelines for agentic coding agents operating in this re
 
 ## Project Overview
 
-This is a **Next.js 16** monolith application with **React 19** and **TypeScript**. It serves as a personal portfolio and multi-app hub under a single domain. It uses:
+This is a **Next.js 15** monolith application with **React 19** and **TypeScript**. It serves as a personal portfolio and multi-app hub under a single domain. It uses:
 - **@clerk/nextjs** for authentication
 - **@headlessui/react** for UI components
 - **@iconify/react** for icons
 - **Tailwind CSS v4** for styling
 
-The project hosts multiple web applications as sub-routes within a single Next.js app, avoiding the need for multiple domains.
+The project hosts multiple web applications as sub-routes (e.g., `/auth/auth1`, `/auth/auth2`) within a single Next.js app, avoiding the need for multiple domains.
 
 ## Build Commands
 
@@ -51,7 +51,7 @@ app/                    # Next.js App Router pages
 │   ├── auth/           # Authentication components
 │   └── shared/         # Shared/common components
 ├── css/                # Stylesheets
-├── auth/               # Auth-related pages
+├── auth/               # Auth-related pages (Login/Register variants)
 └── [other routes]/     # Feature pages
 
 lib/                    # Utility functions and helpers
@@ -95,6 +95,7 @@ lib/                    # Utility functions and helpers
 ### Authentication
 
 - Use Clerk for auth: `@clerk/nextjs` components and hooks
+- Custom auth UI is located in `app/auth/` using components from `app/components/auth/`
 - Server components: use `auth()` from `@clerk/nextjs/server`
 - Client components: use `useAuth` hook
 - API routes: wrap with `auth()` middleware check

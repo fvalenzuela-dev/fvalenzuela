@@ -2,7 +2,7 @@
 import { usePathname } from "next/navigation";
 import Header from "./header/Header";
 
-const publicRoutes = ["/sign-in"];
+const publicRoutes = ["/sign-in", "/auth"];
 
 export default function ConditionalHeader() {
   const pathname = usePathname();
