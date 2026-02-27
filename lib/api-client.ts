@@ -45,6 +45,7 @@ export async function fetchWithAuth(
 
   validateEndpoint(endpoint);
 
+  // eslint-disable-next-line no-restricted-properties
   const response = await fetch(endpoint, {
     ...options,
     headers: {
@@ -75,6 +76,7 @@ export function createAuthenticatedFetch(getToken: () => Promise<string | null>)
 
     validateEndpoint(endpoint);
 
+    // eslint-disable-next-line no-restricted-properties
     const response = await fetch(endpoint, {
       ...options,
       headers: {
