@@ -45,10 +45,7 @@ export async function fetchWithAuth(
 
   const sanitizedEndpoint = sanitizeUrl(endpoint);
 
-  // Use a string literal starting with '/' to prevent SSRF static analysis warnings
-  const safeUrl = `/${sanitizedEndpoint.replace(/^\//, '')}`;
-
-  const response = await fetch(safeUrl, {
+  const request = new Request(`/${sanitizedEndpoint.replace(/^\//, '')}`, {
     ...options,
     headers: {
       ...options.headers,
@@ -56,6 +53,8 @@ export async function fetchWithAuth(
       "Content-Type": "application/json",
     },
   });
+
+  const response = await fetch(request);
 
   if (!response.ok) {
     throw new Error(`API request failed: ${response.statusText}`);
@@ -78,10 +77,7 @@ export function createAuthenticatedFetch(getToken: () => Promise<string | null>)
 
     const sanitizedEndpoint = sanitizeUrl(endpoint);
 
-    // Use a string literal starting with '/' to prevent SSRF static analysis warnings
-    const safeUrl = `/${sanitizedEndpoint.replace(/^\//, '')}`;
-
-    const response = await fetch(safeUrl, {
+    const request = new Request(`/${sanitizedEndpoint.replace(/^\//, '')}`, {
       ...options,
       headers: {
         ...options.headers,
@@ -89,6 +85,8 @@ export function createAuthenticatedFetch(getToken: () => Promise<string | null>)
         "Content-Type": "application/json",
       },
     });
+
+    const response = await fetch(request);
 
     if (!response.ok) {
       throw new Error(`API request failed: ${response.statusText}`);
