@@ -80,10 +80,14 @@ lib/                    # Utility functions and helpers
 
 ### Tailwind CSS
 
-- Use dark mode classes: `dark:bg-dark`, `dark:text-darklink`
-- Theme colors: `primary`, `secondary`, use CSS variables
+- Use dark mode classes: `dark:bg-dark`, `dark:bg-darkgray`, `dark:bg-darkinfo`, `dark:text-darklink`
+- Theme colors: `primary`, `lightprimary`, `secondary`, `info`, `link`, `darklink`, use CSS variables
 - Use `aria-label` for accessibility on icon-only buttons
 - Prefer Tailwind over custom CSS
+
+### Language and Localization
+
+- The UI uses a mix of English and Spanish. Component default labels (e.g., in `MetricCard`) and test assertions often use Spanish strings like "vs mes anterior".
 
 ### Error Handling
 
