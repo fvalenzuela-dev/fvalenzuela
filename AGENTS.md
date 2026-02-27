@@ -131,8 +131,12 @@ The project uses `eslint-config-next` with TypeScript support. Run `npm run lint
 "use client";
 import React, { useState } from "react";
 
-export default function Component(): React.JSX.Element {
-  const [state, setState] = useState(false);
+interface ComponentProps {
+  readonly initialValue?: boolean;
+}
+
+export default function Component({ initialValue = false }: Readonly<ComponentProps>): React.JSX.Element {
+  const [state, setState] = useState(initialValue);
   return <div>{state ? "yes" : "no"}</div>;
 }
 ```
@@ -156,7 +160,8 @@ import { fetchWithAuth } from "@/lib/api-client";
 
 try {
   const data = await fetchWithAuth("/api/endpoint");
-} catch (error) {
-  console.error("API request failed:", error);
+} catch (error: unknown) {
+  const errorMessage = error instanceof Error ? error.message : String(error);
+  console.error("API request failed:", errorMessage);
 }
 ```
