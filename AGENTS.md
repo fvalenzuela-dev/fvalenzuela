@@ -143,8 +143,8 @@ import React from "react";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 
-export default function Page(): React.JSX.Element {
-  const { userId } = auth();
+export default async function Page(): Promise<React.JSX.Element> {
+  const { userId } = await auth();
   if (!userId) redirect("/sign-in");
   return <div>Protected content</div>;
 }
@@ -154,5 +154,9 @@ export default function Page(): React.JSX.Element {
 ```tsx
 import { fetchWithAuth } from "@/lib/api-client";
 
-const data = await fetchWithAuth("/api/endpoint");
+try {
+  const data = await fetchWithAuth("/api/endpoint");
+} catch (error) {
+  console.error("API request failed:", error);
+}
 ```
