@@ -1,14 +1,14 @@
 import React from "react";
-import SocialButtons from "@/app/components/auth/SocialButtons";
-import AuthLogin from "@/app/components/auth/AuthLogin";
-import LeftSidebarPart from "@/app/components/auth/LeftSidebarPart";
-import FullLogo from "@/app/components/shared/FullLogo";
 import Link from "next/link";
 import type { Metadata } from "next";
+import AuthLogin from "@/app/components/auth/AuthLogin";
+import LeftSidebarPart from "@/app/components/auth/LeftSidebarPart";
+import SocialButtons from "@/app/components/auth/SocialButtons";
+import FullLogo from "@/app/components/shared/FullLogo";
 
 export const metadata: Metadata = {
   title: "Login - FValenzuela",
-  description: "Inicia sesion en FValenzuela",
+  description: "Inicia sesión en FValenzuela",
 };
 
 /**

@@ -1,14 +1,14 @@
-import CardBox from "@/app/components/shared/CardBox";
 import React from "react";
-import SocialButtons from "@/app/components/auth/SocialButtons";
-import AuthLogin from "@/app/components/auth/AuthLogin";
 import Link from "next/link";
 import type { Metadata } from "next";
+import AuthLogin from "@/app/components/auth/AuthLogin";
+import SocialButtons from "@/app/components/auth/SocialButtons";
+import CardBox from "@/app/components/shared/CardBox";
 import FullLogo from "@/app/components/shared/FullLogo";
 
 export const metadata: Metadata = {
   title: "Login - FValenzuela",
-  description: "Inicia sesion en FValenzuela",
+  description: "Inicia sesión en FValenzuela",
 };
 
 /**
