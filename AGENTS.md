@@ -1,6 +1,6 @@
 # Agent Coding Guidelines
 
-This document provides guidelines for agentic coding agents operating in this repository.
+This document provides guidelines for agentic coding agents operating in this repository
 
 ## Project Overview
 
