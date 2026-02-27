@@ -45,16 +45,16 @@ Tests are located in the `__tests__/` directory and use React Testing Library.
 ### File Organization
 
 ```
-app/                    # Next.js App Router pages
-├── components/         # Reusable UI components
-│   ├── header/         # Header-specific components
-│   ├── auth/           # Authentication components
-│   └── shared/         # Shared/common components
-├── css/                # Stylesheets
-├── auth/               # Auth-related pages (Login/Register variants)
-└── [other routes]/     # Feature pages
-
-lib/                    # Utility functions and helpers
+├── __tests__/          # Unit and integration tests
+├── app/                # Next.js App Router pages
+│   ├── components/     # Reusable UI components
+│   │   ├── header/     # Header-specific components
+│   │   ├── auth/       # Authentication components
+│   │   └── shared/     # Shared/common components
+│   ├── css/            # Stylesheets
+│   ├── auth/           # Auth-related pages (Login/Register variants)
+│   └── [other routes]/ # Feature pages
+└── lib/                # Utility functions and helpers
 ```
 
 ### Imports

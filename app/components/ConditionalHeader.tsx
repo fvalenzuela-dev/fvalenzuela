@@ -1,9 +1,9 @@
 "use client";
 import React from "react";
 import { usePathname } from "next/navigation";
-import Header from "./header/Header";
+import Header from "@/app/components/header/Header";
 
-const publicRoutes = ["/sign-in", "/auth"];
+const PUBLIC_ROUTES = ["/sign-in", "/auth"];
 
 /**
  * Component that conditionally renders the Header based on the current application route.
@@ -12,7 +12,7 @@ const publicRoutes = ["/sign-in", "/auth"];
 export default function ConditionalHeader(): React.JSX.Element | null {
   const pathname = usePathname();
 
-  const isPublicRoute = publicRoutes.some(route => 
+  const isPublicRoute = PUBLIC_ROUTES.some(route => 
     pathname === route || pathname?.startsWith(route)
   );
 
