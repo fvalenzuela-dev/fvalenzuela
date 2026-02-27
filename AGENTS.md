@@ -125,9 +125,9 @@ The project uses `eslint-config-next` with TypeScript support. Run `npm run lint
 **Client Component:**
 ```tsx
 "use client";
-import { useState } from "react";
+import React, { useState } from "react";
 
-export default function Component() {
+export default function Component(): React.JSX.Element {
   const [state, setState] = useState(false);
   return <div>{state ? "yes" : "no"}</div>;
 }
@@ -135,10 +135,11 @@ export default function Component() {
 
 **Server Component with Auth:**
 ```tsx
+import React from "react";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 
-export default function Page() {
+export default function Page(): React.JSX.Element {
   const { userId } = auth();
   if (!userId) redirect("/sign-in");
   return <div>Protected content</div>;

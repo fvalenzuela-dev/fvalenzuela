@@ -11,7 +11,10 @@ export const metadata: Metadata = {
   description: "Inicia sesion en FValenzuela",
 };
 
-const LoginAuth1 = () => {
+/**
+ * Auth1 Login Page variant featuring a split layout with branding and login form.
+ */
+const LoginAuth1 = (): React.JSX.Element => {
   return (
     <>
       <div className="p-6 lg:bg-transparent lg:dark:bg-transparent bg-lightprimary/50 lg:fixed top-0 z-50 w-full backdrop-blur-sm">

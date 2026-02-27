@@ -11,7 +11,10 @@ export const metadata: Metadata = {
   description: "Inicia sesion en FValenzuela",
 };
 
-const LoginAuth2 = () => {
+/**
+ * Auth2 Login Page variant featuring a centered card-based layout.
+ */
+const LoginAuth2 = (): React.JSX.Element => {
   return (
     <div className="relative overflow-hidden h-screen bg-lightprimary dark:bg-darkgray">
       <div className="flex h-full justify-center items-center px-4">
