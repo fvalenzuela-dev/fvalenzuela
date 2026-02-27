@@ -15,21 +15,21 @@ import { auth } from "@clerk/nextjs/server";
  * const data = await fetchWithAuth('/api/endpoint');
  * ```
  */
-function validateEndpoint(endpoint: string): void {
-  try {
-    const url = new URL(endpoint, "http://localhost");
-    if (url.origin !== "http://localhost") {
-      throw new Error("Only relative URLs are allowed");
-    }
-  } catch {
-    if (endpoint.includes("://") || endpoint.startsWith("//")) {
-      throw new Error("Only relative URLs are allowed");
-    }
-  }
-
+function sanitizeEndpoint(endpoint: string): string {
   if (endpoint.includes("\0")) {
     throw new Error("Invalid endpoint");
   }
+
+  if (endpoint.includes("://") || endpoint.startsWith("//")) {
+    throw new Error("Only relative URLs are allowed");
+  }
+
+  const url = new URL(endpoint, "http://localhost");
+  if (url.origin !== "http://localhost") {
+    throw new Error("Only relative URLs are allowed");
+  }
+
+  return url.pathname + url.search;
 }
 
 export async function fetchWithAuth(
@@ -43,10 +43,9 @@ export async function fetchWithAuth(
     throw new Error("No authentication token available");
   }
 
-  validateEndpoint(endpoint);
+  const sanitizedEndpoint = sanitizeEndpoint(endpoint);
 
-  // codacy-suppress security
-  const response = await fetch(endpoint, {
+  const response = await fetch(sanitizedEndpoint, {
     ...options,
     headers: {
       ...options.headers,
@@ -74,10 +73,9 @@ export function createAuthenticatedFetch(getToken: () => Promise<string | null>)
       throw new Error("No authentication token available");
     }
 
-    validateEndpoint(endpoint);
+    const sanitizedEndpoint = sanitizeEndpoint(endpoint);
 
-    // codacy-suppress security
-    const response = await fetch(endpoint, {
+    const response = await fetch(sanitizedEndpoint, {
       ...options,
       headers: {
         ...options.headers,
