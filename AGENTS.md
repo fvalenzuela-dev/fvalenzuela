@@ -26,9 +26,12 @@ npm run start
 
 # Run linter
 npm run lint
+
+# Run tests
+npm test
 ```
 
-There are **no test files** in this project currently.
+Tests are located in the `__tests__/` directory and use React Testing Library.
 
 ## Code Style Guidelines
 
@@ -69,7 +72,7 @@ lib/                    # Utility functions and helpers
 
 ### React Patterns
 
-- Add `"use client"` directive at top of client components
+- Add "use client" directive at top of client components
 - Use functional components with arrow functions or `function` keyword
 - Extract complex logic into custom hooks
 - Use early returns for conditionals
@@ -101,7 +104,7 @@ lib/                    # Utility functions and helpers
 
 - Use App Router (all files in `app/` directory)
 - Define metadata in `layout.tsx` or `page.tsx`
-- Use Server Components by default, add `"use client"` only when needed
+- Use Server Components by default, add "use client" only when needed
 - Leverage Next.js built-in optimizations (Image, Font, Link)
 
 ### ESLint
