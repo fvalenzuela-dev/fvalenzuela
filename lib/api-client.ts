@@ -15,7 +15,7 @@ import { auth } from "@clerk/nextjs/server";
  * const data = await fetchWithAuth('/api/endpoint');
  * ```
  */
-function sanitizeEndpoint(endpoint: string): string {
+function sanitizeUrl(endpoint: string): string {
   if (endpoint.includes("\0")) {
     throw new Error("Invalid endpoint");
   }
@@ -43,7 +43,7 @@ export async function fetchWithAuth(
     throw new Error("No authentication token available");
   }
 
-  const sanitizedEndpoint = sanitizeEndpoint(endpoint);
+  const sanitizedEndpoint = sanitizeUrl(endpoint);
 
   const response = await fetch(sanitizedEndpoint, {
     ...options,
@@ -73,7 +73,7 @@ export function createAuthenticatedFetch(getToken: () => Promise<string | null>)
       throw new Error("No authentication token available");
     }
 
-    const sanitizedEndpoint = sanitizeEndpoint(endpoint);
+    const sanitizedEndpoint = sanitizeUrl(endpoint);
 
     const response = await fetch(sanitizedEndpoint, {
       ...options,
