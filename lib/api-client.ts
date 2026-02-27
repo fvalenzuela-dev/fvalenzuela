@@ -15,6 +15,23 @@ import { auth } from "@clerk/nextjs/server";
  * const data = await fetchWithAuth('/api/endpoint');
  * ```
  */
+function validateEndpoint(endpoint: string): void {
+  try {
+    const url = new URL(endpoint, "http://localhost");
+    if (url.origin !== "http://localhost") {
+      throw new Error("Only relative URLs are allowed");
+    }
+  } catch {
+    if (endpoint.includes("://") || endpoint.startsWith("//")) {
+      throw new Error("Only relative URLs are allowed");
+    }
+  }
+
+  if (endpoint.includes("\0")) {
+    throw new Error("Invalid endpoint");
+  }
+}
+
 export async function fetchWithAuth(
   endpoint: string,
   options: RequestInit = {}
@@ -25,6 +42,8 @@ export async function fetchWithAuth(
   if (!token) {
     throw new Error("No authentication token available");
   }
+
+  validateEndpoint(endpoint);
 
   const response = await fetch(endpoint, {
     ...options,
@@ -53,6 +72,8 @@ export function createAuthenticatedFetch(getToken: () => Promise<string | null>)
     if (!token) {
       throw new Error("No authentication token available");
     }
+
+    validateEndpoint(endpoint);
 
     const response = await fetch(endpoint, {
       ...options,
