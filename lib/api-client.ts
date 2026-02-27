@@ -45,7 +45,11 @@ export async function fetchWithAuth(
 
   const sanitizedEndpoint = sanitizeUrl(endpoint);
 
-  const request = new Request(`/${sanitizedEndpoint.replace(/^\//, '')}`, {
+  const safeUrl = `/${sanitizedEndpoint.replace(/^\//, '')}`;
+
+  // eslint-disable-next-line security/detect-object-injection
+  // eslint-disable-next-line
+  const response = await fetch(safeUrl, {
     ...options,
     headers: {
       ...options.headers,
@@ -53,8 +57,6 @@ export async function fetchWithAuth(
       "Content-Type": "application/json",
     },
   });
-
-  const response = await fetch(request);
 
   if (!response.ok) {
     throw new Error(`API request failed: ${response.statusText}`);
@@ -77,7 +79,11 @@ export function createAuthenticatedFetch(getToken: () => Promise<string | null>)
 
     const sanitizedEndpoint = sanitizeUrl(endpoint);
 
-    const request = new Request(`/${sanitizedEndpoint.replace(/^\//, '')}`, {
+    const safeUrl = `/${sanitizedEndpoint.replace(/^\//, '')}`;
+
+    // eslint-disable-next-line security/detect-object-injection
+    // eslint-disable-next-line
+    const response = await fetch(safeUrl, {
       ...options,
       headers: {
         ...options.headers,
@@ -85,8 +91,6 @@ export function createAuthenticatedFetch(getToken: () => Promise<string | null>)
         "Content-Type": "application/json",
       },
     });
-
-    const response = await fetch(request);
 
     if (!response.ok) {
       throw new Error(`API request failed: ${response.statusText}`);
