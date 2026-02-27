@@ -18,6 +18,7 @@ const config: Config = {
     "lib/**/*.{ts,tsx}",
     "!app/**/*.d.ts",
   ],
+  coverageReporters: ["lcov", "text", "text-summary"],
 };
 
 export default createJestConfig(config);
