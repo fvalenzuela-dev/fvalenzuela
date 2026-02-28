@@ -1,8 +1,12 @@
+/**
+ * Tests for the MetricCard component.
+ * Validates rendering of titles, values, icons, and conditional change labels in both English and Spanish.
+ */
 import { render, screen } from "@testing-library/react";
 import MetricCard from "@/app/components/shared/MetricCard";
 
-describe("MetricCard", () => {
-  it("renders title and value correctly", () => {
+describe("MetricCard", (): void => {
+  it("renders title and value correctly", (): void => {
     render(
       <MetricCard
         title="Test Title"
@@ -15,7 +19,7 @@ describe("MetricCard", () => {
     expect(screen.getByText("100")).toBeInTheDocument();
   });
 
-  it("renders with positive change", () => {
+  it("renders with positive change", (): void => {
     render(
       <MetricCard
         title="Revenue"
@@ -28,7 +32,7 @@ describe("MetricCard", () => {
     expect(screen.getByText("15%")).toBeInTheDocument();
   });
 
-  it("renders with negative change", () => {
+  it("renders with negative change", (): void => {
     render(
       <MetricCard
         title="Bounce Rate"
@@ -41,7 +45,7 @@ describe("MetricCard", () => {
     expect(screen.getByText("8%")).toBeInTheDocument();
   });
 
-  it("renders with default change label", () => {
+  it("renders with default change label", (): void => {
     render(
       <MetricCard
         title="Users"
@@ -54,7 +58,7 @@ describe("MetricCard", () => {
     expect(screen.getByText("vs mes anterior")).toBeInTheDocument();
   });
 
-  it("renders with custom change label", () => {
+  it("renders with custom change label", (): void => {
     render(
       <MetricCard
         title="Users"

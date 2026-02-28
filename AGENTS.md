@@ -80,14 +80,14 @@ Tests are located in the `__tests__/` directory and use React Testing Library.
 
 ### Tailwind CSS
 
-- Use dark mode classes: `dark:bg-dark`, `dark:bg-darkgray`, `dark:bg-darkinfo`, `dark:text-darklink`
-- Theme colors: `primary`, `lightprimary`, `secondary`, `info`, `link`, `darklink`, use CSS variables
+- Use dark mode classes: `dark:bg-dark`, `dark:bg-darkgray`, `dark:bg-darkinfo`, `dark:text-darklink`, `dark:text-white`, `dark:border-darkborder`
+- Theme colors: `primary`, `lightprimary`, `secondary`, `info`, `link`, `darklink`, `border`, `darkborder`, use CSS variables
 - Use `aria-label` for accessibility on icon-only buttons
 - Prefer Tailwind over custom CSS
 
 ### Language and Localization
 
-- The UI uses a mix of English and Spanish. Component default labels (e.g., in `MetricCard`) and test assertions often use Spanish strings like "vs mes anterior".
+- The UI uses a mix of English and Spanish. This applies to component default labels (e.g., in `MetricCard`), page content (e.g., "Nuevo en FValenzuela?"), and test assertions often using Spanish strings like "vs mes anterior".
 
 ### Error Handling
 
@@ -148,9 +148,15 @@ import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 
 export default async function Page(): Promise<React.JSX.Element> {
-  const { userId } = await auth();
-  if (!userId) redirect("/sign-in");
-  return <div>Protected content</div>;
+  try {
+    const { userId } = await auth();
+    if (!userId) redirect("/sign-in");
+    return <div>Protected content</div>;
+  } catch (error: unknown) {
+    if (error instanceof Error && error.message === "NEXT_REDIRECT") throw error;
+    console.error("Auth check failed:", error);
+    redirect("/sign-in");
+  }
 }
 ```
 
