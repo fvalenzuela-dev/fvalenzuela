@@ -1,4 +1,12 @@
-# Project Documentation
+# FValenzuela
+
+## Project Overview
+
+FValenzuela is a monolith application built with **Next.js 15**, **React 19**, and **Tailwind CSS v4**. It serves as a personal portfolio and a multi-app hub, hosting various web applications as sub-routes under a single domain.
+
+## Documentation
+
+For project-specific coding guidelines and standards for AI agents, please refer to [AGENTS.md](./AGENTS.md).
 
 ## Environment Configuration
 
@@ -32,6 +40,25 @@ The following environment files are tracked in the repository and used by the CI
 | `NEXT_PUBLIC_API_URL` | Base URL for the primary API service. |
 | `NEXT_PUBLIC_PYTHON_API_URL` | Base URL for the Python backend service. |
 
+## Getting Started
+
+First, install dependencies and run the development server:
+
+```bash
+npm install
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+## Available Scripts
+
+- `npm run dev`: Starts the development server.
+- `npm run build`: Builds the application for production.
+- `npm run start`: Starts the production server.
+- `npm run lint`: Runs ESLint to check for code quality issues.
+- `npm test`: Runs the test suite using React Testing Library.
+
 ## Deployment
 
 ### Docker Build Configuration
@@ -53,4 +80,4 @@ Automated deployments to Google Cloud Platform are handled via GitHub Actions:
 - **Development**: Triggered by the `.github/workflows/docker-gcp-dev.yml` workflow. Deploys to Cloud Run service `mi-app-next-dev-deploy`.
 - **Production**: Triggered by the `.github/workflows/docker-gcp-prod.yml` workflow. Deploys to Cloud Run service `prod-deploy`.
 
-Both workflows use a centralized reusable workflow defined in `_org-workflow/build-and-push-docker-gcp.yml`.
+Both workflows use a centralized reusable workflow defined in the organization's `.github` repository.
