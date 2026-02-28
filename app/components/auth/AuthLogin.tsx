@@ -49,11 +49,11 @@ const AuthLogin = () => {
             id="username"
             type="text"
             value={formData.username}
-            onChange={(e) =>
-              setFormData({ ...formData, username: e.target.value })
-            }
-            onFocus={() => setFocusedField("username")}
-            onBlur={() => setFocusedField(null)}
+            onChange={(e) => {
+              setFormData({ ...formData, username: e.target.value });
+            }}
+            onFocus={() => { setFocusedField("username"); }}
+            onBlur={() => { setFocusedField(null); }}
             className="ui-form-control rounded-md py-3 px-4 pr-10 transition-all duration-150"
             placeholder="Enter your username"
           />
@@ -94,11 +94,11 @@ const AuthLogin = () => {
             id="password"
             type={showPassword ? "text" : "password"}
             value={formData.password}
-            onChange={(e) =>
-              setFormData({ ...formData, password: e.target.value })
-            }
-            onFocus={() => setFocusedField("password")}
-            onBlur={() => setFocusedField(null)}
+            onChange={(e) => {
+              setFormData({ ...formData, password: e.target.value });
+            }}
+            onFocus={() => { setFocusedField("password"); }}
+            onBlur={() => { setFocusedField(null); }}
             className="ui-form-control rounded-md py-3 px-4 pr-20 transition-all duration-150"
             placeholder="Enter your password"
           />
@@ -112,7 +112,7 @@ const AuthLogin = () => {
             )}
             <button
               type="button"
-              onClick={() => setShowPassword(!showPassword)}
+              onClick={() => { setShowPassword(!showPassword); }}
               className="text-darklink hover:text-primary transition-colors"
             >
               <Icon
@@ -135,9 +135,9 @@ const AuthLogin = () => {
             id="remember"
             type="checkbox"
             checked={formData.remember}
-            onChange={(e) =>
-              setFormData({ ...formData, remember: e.target.checked })
-            }
+            onChange={(e) => {
+              setFormData({ ...formData, remember: e.target.checked });
+            }}
             className="ui-checkbox"
           />
           <label
