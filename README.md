@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-FValenzuela is a monolith application built with **Next.js 15**, **React 19**, and integrated with **Clerk** for authentication and **GCP (Google Cloud Platform)** for deployment.
+FValenzuela is a monolith application built with **Next.js 15**, **React 19**, and **Tailwind CSS v4**. It serves as a personal portfolio and a multi-app hub, hosting various web applications as sub-routes under a single domain. The project is integrated with **Clerk** for authentication and configured for automated deployment to **GCP (Google Cloud Platform)** via **Cloud Run**.
 
 For project-specific coding guidelines and standards for AI agents, please refer to [AGENTS.md](./AGENTS.md).
 
@@ -25,7 +25,7 @@ The following environment files are tracked in the repository and used by the CI
 - `.env.dev`: Configuration used for builds targeting the development environment.
 - `.env.prod`: Configuration used for builds targeting the production environment.
 
-> **Note**: Variables prefixed with `NEXT_PUBLIC_` are embedded into the client-side JavaScript bundle at build time.
+> **Important**: Variables prefixed with `NEXT_PUBLIC_` are embedded into the client-side JavaScript bundle at build time. Ensure that `.env.prod` is updated with valid production keys (e.g., `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`) before deployment. Sensitive server-side secrets (like `CLERK_SECRET_KEY`) should be managed via GCP Secret Manager and not committed to these files.
 
 ### Key Environment Variables
 
@@ -61,7 +61,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ### Docker Build Configuration
 
-The `Dockerfile` utilizes a build argument `ENV_FILE` to determine which environment configuration to bake into the image during the build process. This is necessary for Next.js to correctly embed `NEXT_PUBLIC_` variables.
+The `Dockerfile` utilizes a build argument `ENV_FILE` to determine which environment configuration to bake into the image during the build process. This is necessary for Next.js to correctly embed `NEXT_PUBLIC_` variables at build time.
 
 To build the image manually:
 ```bash
