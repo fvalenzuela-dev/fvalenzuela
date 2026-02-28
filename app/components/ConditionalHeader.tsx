@@ -12,8 +12,8 @@ const PUBLIC_ROUTES = ["/sign-in", "/auth"];
 export default function ConditionalHeader(): React.JSX.Element | null {
   const pathname = usePathname();
 
-  const isPublicRoute = PUBLIC_ROUTES.some(route => 
-    pathname === route || pathname?.startsWith(route)
+  const isPublicRoute = PUBLIC_ROUTES.some(route =>
+    pathname === route || pathname.startsWith(route)
   );
 
   if (isPublicRoute) {
