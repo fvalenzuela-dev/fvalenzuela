@@ -25,7 +25,7 @@ export default function GeneradorIdeasPage() {
   const [ideas, setIdeas] = useState<Idea[]>([]);
   const [modoEdicion, setModoEdicion] = useState(false);
   const [ideaEditando, setIdeaEditando] = useState<Idea | null>(null);
-  
+
   // Formulario
   const [titulo, setTitulo] = useState("");
   const [descripcion, setDescripcion] = useState("");
@@ -72,13 +72,13 @@ export default function GeneradorIdeasPage() {
         prev.map((idea) =>
           idea.id === ideaEditando.id
             ? {
-                ...idea,
-                titulo: titulo.trim(),
-                descripcion: descripcion.trim(),
-                categoria,
-                estado,
-                fechaActualizacion: ahora,
-              }
+              ...idea,
+              titulo: titulo.trim(),
+              descripcion: descripcion.trim(),
+              categoria,
+              estado,
+              fechaActualizacion: ahora,
+            }
             : idea
         )
       );
@@ -193,7 +193,7 @@ export default function GeneradorIdeasPage() {
               <input
                 type="text"
                 value={titulo}
-                onChange={(e) => setTitulo(e.target.value)}
+                onChange={(e) => { setTitulo(e.target.value); }}
                 placeholder="Ej: App de gestión de tareas para equipos remotos"
                 className="w-full px-4 py-2 rounded-lg border border-border dark:border-darkborder bg-white dark:bg-dark text-dark dark:text-white focus:ring-2 focus:ring-primary focus:border-primary outline-none"
               />
@@ -205,7 +205,7 @@ export default function GeneradorIdeasPage() {
               </label>
               <textarea
                 value={descripcion}
-                onChange={(e) => setDescripcion(e.target.value)}
+                onChange={(e) => { setDescripcion(e.target.value); }}
                 placeholder="Describe tu idea en detalle..."
                 rows={8}
                 className="w-full px-4 py-2 rounded-lg border border-border dark:border-darkborder bg-white dark:bg-dark text-dark dark:text-white focus:ring-2 focus:ring-primary focus:border-primary outline-none resize-none"
@@ -219,7 +219,7 @@ export default function GeneradorIdeasPage() {
                 </label>
                 <select
                   value={categoria}
-                  onChange={(e) => setCategoria(e.target.value)}
+                  onChange={(e) => { setCategoria(e.target.value); }}
                   className="w-full px-4 py-2 rounded-lg border border-border dark:border-darkborder bg-white dark:bg-dark text-dark dark:text-white focus:ring-2 focus:ring-primary focus:border-primary outline-none"
                 >
                   {categorias.map((cat) => (
@@ -236,7 +236,7 @@ export default function GeneradorIdeasPage() {
                 </label>
                 <select
                   value={estado}
-                  onChange={(e) => setEstado(e.target.value as Idea["estado"])}
+                  onChange={(e) => { setEstado(e.target.value as Idea["estado"]); }}
                   className="w-full px-4 py-2 rounded-lg border border-border dark:border-darkborder bg-white dark:bg-dark text-dark dark:text-white focus:ring-2 focus:ring-primary focus:border-primary outline-none"
                 >
                   <option value="borrador">Borrador</option>
@@ -254,7 +254,7 @@ export default function GeneradorIdeasPage() {
                 <Icon icon="solar:diskette-bold-duotone" className="h-5 w-5" />
                 {modoEdicion ? "Actualizar Idea" : "Guardar Idea"}
               </button>
-              
+
               <button
                 onClick={handleRefinarIdea}
                 className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-secondary text-white rounded-lg hover:bg-secondaryemphasis transition-colors font-medium"
@@ -297,9 +297,8 @@ export default function GeneradorIdeasPage() {
               {ideas.map((idea) => (
                 <div
                   key={idea.id}
-                  className={`bg-white dark:bg-dark rounded-lg shadow-md dark:shadow-dark-md transition-all hover:shadow-lg ${
-                    ideaEditando?.id === idea.id ? "ring-2 ring-primary" : ""
-                  }`}
+                  className={`bg-white dark:bg-dark rounded-lg shadow-md dark:shadow-dark-md transition-all hover:shadow-lg ${ideaEditando?.id === idea.id ? "ring-2 ring-primary" : ""
+                    }`}
                 >
                   <div className="p-4">
                     <div className="flex items-start justify-between">
@@ -316,7 +315,7 @@ export default function GeneradorIdeasPage() {
                             {getLabelEstado(idea.estado)}
                           </span>
                         </div>
-                        
+
                         <p className="text-xs text-darklink dark:text-darklink mb-2 capitalize">
                           {categorias.find((c) => c.value === idea.categoria)?.label} • {" "}
                           {new Date(idea.fechaCreacion).toLocaleDateString("es-ES", {
@@ -325,7 +324,7 @@ export default function GeneradorIdeasPage() {
                             year: "numeric",
                           })}
                         </p>
-                        
+
                         <p className="text-sm text-dark dark:text-white/80 line-clamp-3">
                           {idea.descripcion.substring(0, 150)}
                           {idea.descripcion.length > 150 ? "..." : ""}
@@ -334,14 +333,14 @@ export default function GeneradorIdeasPage() {
 
                       <div className="flex flex-col gap-2 ml-4">
                         <button
-                          onClick={() => handleEditar(idea)}
+                          onClick={() => { handleEditar(idea); }}
                           className="p-2 rounded-lg text-dark dark:text-white hover:bg-lightprimary hover:text-primary transition-colors"
                           title="Editar"
                         >
                           <Icon icon="solar:pen-2-bold-duotone" className="h-4 w-4" />
                         </button>
                         <button
-                          onClick={() => handleEliminar(idea.id)}
+                          onClick={() => { handleEliminar(idea.id); }}
                           className="p-2 rounded-lg text-dark dark:text-white hover:bg-lighterror hover:text-error transition-colors"
                           title="Eliminar"
                         >

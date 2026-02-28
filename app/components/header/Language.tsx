@@ -19,7 +19,7 @@ const Language = () => {
           <MenuItem key={index}>
             <button
               className="flex gap-3 items-center py-3 px-6 hover:bg-lightgray hover:dark:bg-darkgray group w-full text-left transition-colors duration-150"
-              onClick={() => setCurrentLang(item)}
+              onClick={() => { setCurrentLang(item); }}
             >
               <span className="w-5 h-5 rounded-full bg-lightsecondary text-secondary flex items-center justify-center text-xs font-semibold">
                 {item.value.charAt(0).toUpperCase()}

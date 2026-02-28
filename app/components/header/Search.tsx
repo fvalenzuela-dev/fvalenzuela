@@ -25,28 +25,26 @@ const Search = () => {
           type="text"
           name="search"
           id="search"
-          onFocus={() => setIsFocused(true)}
+          onFocus={() => { setIsFocused(true); }}
           onBlur={() => {
             setIsFocused(false);
-            setTimeout(() => setOpenBox(false), 200);
+            setTimeout(() => { setOpenBox(false); }, 200);
           }}
           onChange={handleChange}
           placeholder="Search pages..."
-          className={`w-full border rounded-lg py-2.5 pl-11 pr-4 bg-transparent dark:text-white text-sm font-medium transition-all duration-150 focus:ring-0 focus:shadow-none ${
-            isFocused
+          className={`w-full border rounded-lg py-2.5 pl-11 pr-4 bg-transparent dark:text-white text-sm font-medium transition-all duration-150 focus:ring-0 focus:shadow-none ${isFocused
               ? "border-primary dark:border-primary"
               : "border-border dark:border-darkborder"
-          }`}
+            }`}
         />
         <div className="absolute top-1/2 -translate-y-1/2 left-4">
           <Icon
             icon="solar:magnifer-bold-duotone"
             height={20}
-            className={`transition-colors duration-150 ${
-              isFocused
+            className={`transition-colors duration-150 ${isFocused
                 ? "text-primary"
                 : "text-link dark:text-darklink"
-            }`}
+              }`}
           />
         </div>
         {searchQuery && (
@@ -61,7 +59,7 @@ const Search = () => {
           </button>
         )}
       </div>
-      
+
       {openBox && searchQuery && (
         <div className="absolute top-full left-0 mt-2 shadow-md dark:shadow-dark-md w-full bg-white dark:bg-dark rounded-lg z-50 border border-border dark:border-darkborder overflow-hidden">
           <div className="max-h-80 overflow-auto">
@@ -82,10 +80,10 @@ const Search = () => {
                     key={index}
                   >
                     <div className="w-8 h-8 rounded-lg bg-lightprimary dark:bg-darkinfo flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <Icon 
-                        icon="solar:document-text-bold-duotone" 
-                        className="text-primary" 
-                        width={18} 
+                      <Icon
+                        icon="solar:document-text-bold-duotone"
+                        className="text-primary"
+                        width={18}
                       />
                     </div>
                     <div className="flex-1 min-w-0">
@@ -100,10 +98,10 @@ const Search = () => {
                 ))
               ) : (
                 <div className="text-center px-4">
-                  <Icon 
-                    icon="solar:inbox-line-bold-duotone" 
-                    className="text-link dark:text-darklink mx-auto mb-2" 
-                    width={40} 
+                  <Icon
+                    icon="solar:inbox-line-bold-duotone"
+                    className="text-link dark:text-darklink mx-auto mb-2"
+                    width={40}
                   />
                   <p className="text-sm text-link dark:text-darklink font-medium">
                     No results found for "{searchQuery}"
