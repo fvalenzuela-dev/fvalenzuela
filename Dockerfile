@@ -12,9 +12,9 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# NEXT_PUBLIC_* variables are read from .env.production
-# This file is generated in CI from GCP Secret Manager
-COPY .env.production .env.production
+# Select environment file: .env.dev (default) or .env.prod
+ARG ENV_FILE=.env.dev
+COPY ${ENV_FILE} .env.production
 
 ENV NEXT_TELEMETRY_DISABLED=1
 RUN npm run build

@@ -18,13 +18,7 @@ jobs:
       artifact_registry_repository: "app-frontend-react-repo"
       cloudrun_service: "prod-deploy"
       cloudrun_region: "us-central1"
-      build_env_secrets: |-
-        NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY:NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
-        NEXT_PUBLIC_CLERK_SIGN_IN_URL:NEXT_PUBLIC_CLERK_SIGN_IN_URL
-        NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL:NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL
-        NEXT_PUBLIC_API_URL:NEXT_PUBLIC_API_URL
-        NEXT_PUBLIC_PYTHON_API_URL:NEXT_PUBLIC_PYTHON_API_URL
-      cloudrun_secrets: "CLERK_SECRET_KEY=CLERK_SECRET_KEY:latest"
+      build_args: "ENV_FILE=.env.prod"
     secrets:
       gcp_project_id: ${{ secrets.GCP_PROJECT_ID_PROD }}
       gcp_workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER_PROD }}
