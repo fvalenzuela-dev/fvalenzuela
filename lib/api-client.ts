@@ -83,6 +83,7 @@ export function createAuthenticatedFetch(getToken: () => Promise<string | null>)
 
     // eslint-disable-next-line security/detect-object-injection
     // eslint-disable-next-line
+    // hola
     const response = await fetch(safeUrl, {
       ...options,
       headers: {
