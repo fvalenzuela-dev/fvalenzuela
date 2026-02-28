@@ -13,6 +13,11 @@ const eslintConfig = defineConfig([
     "build/**",
     "next-env.d.ts",
   ]),
+  {
+    rules: {
+      "@typescript-eslint/no-confusing-void-expression": ["error", { "ignoreArrowShorthand": true }]
+    }
+  }
 ]);
 
 export default eslintConfig;
