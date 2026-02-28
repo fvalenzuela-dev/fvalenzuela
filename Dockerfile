@@ -12,8 +12,9 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-ARG NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
-ENV NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=$NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
+# NEXT_PUBLIC_* variables are read from .env.production
+# This file is generated in CI from GCP Secret Manager
+COPY .env.production .env.production
 
 ENV NEXT_TELEMETRY_DISABLED=1
 RUN npm run build

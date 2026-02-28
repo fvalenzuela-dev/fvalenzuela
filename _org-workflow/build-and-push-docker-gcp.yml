@@ -1,0 +1,159 @@
+name: Build and Push Docker Image to GCP
+
+# Propósito de este Workflow:
+# Este es el flujo COMPLETO de paso a Producción (CI/CD):
+# 1. Pide la máquina prestada temporal (Linux).
+# 2. Se autentica de forma segura en Google Cloud usando WIF (tokens de corta duración).
+# 3. (Opcional) Lee secrets de GCP Secret Manager y genera .env.production para el build.
+# 4. Construye la imagen de Docker a partir del código.
+# 5. Sube la imagen directamente a Artifact Registry en GCP.
+# 6. DESPLIEGA esa nueva imagen en Cloud Run, dejando la aplicación en uso en internet.
+# 7. (Opcional) Monta secrets de GCP Secret Manager como env vars en Cloud Run.
+#
+# Ejemplo de cómo llamarlo desde el repositorio destino:
+# -------------------------------------------------------------------
+# name: Deploy to Cloud Run GCP
+# on:
+#   push:
+#     branches: [ "main" ]
+#
+# jobs:
+#   deploy-production:
+#     uses: fvalenzuela-dev/.github/.github/workflows/build-and-push-docker-gcp.yml@main
+#     with:
+#       image_name: 'mi-api'
+#       artifact_registry_region: 'us-central1'
+#       artifact_registry_repository: 'mis-repos'
+#       cloudrun_service: 'mi-api-service'
+#       build_env_secrets: |-
+#         NEXT_PUBLIC_API_URL:NEXT_PUBLIC_API_URL
+#         NEXT_PUBLIC_KEY:NEXT_PUBLIC_KEY
+#       cloudrun_secrets: |
+#         CLERK_SECRET_KEY=CLERK_SECRET_KEY:latest
+#     secrets:
+#       gcp_project_id: ${{ secrets.GCP_PROJECT_ID }}
+#       gcp_workload_identity_provider: ${{ secrets.GCP_WIF_PROVIDER }}
+#       gcp_service_account: ${{ secrets.GCP_SA_EMAIL }}
+# -------------------------------------------------------------------
+
+on:
+  workflow_call:
+    inputs:
+      image_name:
+        required: true
+        type: string
+      dockerfile_path:
+        required: false
+        type: string
+        default: "./Dockerfile"
+      artifact_registry_region:
+        required: true
+        type: string
+      artifact_registry_repository:
+        required: true
+        type: string
+      cloudrun_service:
+        required: true
+        type: string
+      cloudrun_region:
+        required: false
+        type: string
+        default: "us-central1"
+      build_env_secrets:
+        description: |
+          Secrets from GCP Secret Manager to generate .env.production for build-time.
+          Each line maps an output name to a secret: OUTPUT_NAME:SECRET_NAME
+          The secret values will be written as OUTPUT_NAME=value in .env.production.
+        required: false
+        type: string
+        default: ""
+      cloudrun_secrets:
+        description: |
+          Secrets from GCP Secret Manager to mount in Cloud Run as env vars at runtime.
+          Format: ENV_VAR=SECRET_NAME:VERSION
+          Example: CLERK_SECRET_KEY=CLERK_SECRET_KEY:latest
+        required: false
+        type: string
+        default: ""
+    secrets:
+      gcp_project_id:
+        required: true
+      gcp_workload_identity_provider:
+        required: true
+      gcp_service_account:
+        required: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: "read"
+      id-token: "write"
+    outputs:
+      image_to_deploy: ${{ inputs.artifact_registry_region }}-docker.pkg.dev/${{ secrets.gcp_project_id }}/${{ inputs.artifact_registry_repository }}/${{ inputs.image_name }}:latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Authenticate to Google Cloud
+        id: auth
+        uses: "google-github-actions/auth@v2"
+        with:
+          workload_identity_provider: ${{ secrets.gcp_workload_identity_provider }}
+          service_account: ${{ secrets.gcp_service_account }}
+
+      # --- Build-time secrets (optional) ---
+      - name: Get build secrets from Secret Manager
+        if: inputs.build_env_secrets != ''
+        id: build_secrets
+        uses: google-github-actions/get-secretmanager-secrets@v2
+        with:
+          secrets: |-
+            ${{ inputs.build_env_secrets }}
+
+      - name: Generate .env.production from secrets
+        if: inputs.build_env_secrets != ''
+        shell: bash
+        run: |
+          # Write each secret output to .env.production
+          echo '${{ toJSON(steps.build_secrets.outputs) }}' | \
+            jq -r 'to_entries[] | "\(.key)=\(.value)"' > .env.production
+          echo "✅ Generated .env.production with $(wc -l < .env.production) variables"
+
+      # --- Docker build and push ---
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Configure Docker for Artifact Registry
+        run: gcloud auth configure-docker ${{ inputs.artifact_registry_region }}-docker.pkg.dev
+
+      - name: Extract metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ inputs.artifact_registry_region }}-docker.pkg.dev/${{ secrets.gcp_project_id }}/${{ inputs.artifact_registry_repository }}/${{ inputs.image_name }}
+          tags: |
+            type=semver,pattern={{version}}
+            type=sha,format=short
+            latest
+
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ${{ inputs.dockerfile_path }}
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      # --- Deploy to Cloud Run ---
+      - name: Deploy to Cloud Run
+        uses: google-github-actions/deploy-cloudrun@v2
+        with:
+          service: ${{ inputs.cloudrun_service }}
+          region: ${{ inputs.cloudrun_region }}
+          image: ${{ inputs.artifact_registry_region }}-docker.pkg.dev/${{ secrets.gcp_project_id }}/${{ inputs.artifact_registry_repository }}/${{ inputs.image_name }}:latest
+          flags: --memory=512Mi
+          secrets: ${{ inputs.cloudrun_secrets }}
