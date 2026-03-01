@@ -15,7 +15,7 @@ jobs:
       image_name: "fvalenzuela"
       dockerfile_path: "./Dockerfile"
       artifact_registry_region: "us-central1"
-      artifact_registry_repository: "app-frontend-react-repo"
+      artifact_registry_repository: "gh-front-art-fvalenzuela"
       cloudrun_service: "fvalenzuela-dev-deploy"
       cloudrun_region: "us-central1"
       build_args: "ENV_FILE=.env.dev"
