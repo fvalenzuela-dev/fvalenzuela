@@ -12,10 +12,10 @@ jobs:
       id-token: write
     uses: fvalenzuela-dev/.github/.github/workflows/build-and-push-docker-gcp.yml@main
     with:
-      image_name: "fvalenzuela"
+      image_name: "gh-front-fvalenzuela"
       dockerfile_path: "./Dockerfile"
       artifact_registry_region: "us-central1"
-      artifact_registry_repository: "gh-front-art-fvalenzuela"
+      artifact_registry_repository: "frontend-react-repo-dev"
       cloudrun_service: "fvalenzuela-dev-deploy"
       cloudrun_region: "us-central1"
       build_args: "ENV_FILE=.env.dev"
