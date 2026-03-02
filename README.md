@@ -1,81 +1,27 @@
-# FValenzuela
-
-## Project Overview
-
-FValenzuela is a monolith application built with **Next.js 15**, **React 19**, and **Tailwind CSS v4**. It serves as a personal portfolio and a multi-app hub, hosting various web applications as sub-routes under a single domain. The project is integrated with **Clerk** for authentication and configured for automated deployment to **GCP (Google Cloud Platform)** via **Cloud Run**.
-
-For project-specific coding guidelines and standards for AI agents, please refer to [AGENTS.md](./AGENTS.md).
-
-## Environment Configuration
-
-This project uses environment variables to manage configuration across different environments (Development, Production, and Local). These variables handle Clerk authentication and API endpoint routing.
-
-### Local Development
-
-To set up your local environment, copy the example environment file and fill in the required values:
-
-```bash
-cp .env.example .env.local
-```
-
-### Environment Files
-
-The following environment files are tracked in the repository and used by the CI/CD pipeline:
-- `.env.example`: A template for local development.
-- `.env.dev`: Configuration used for builds targeting the development environment.
-- `.env.prod`: Configuration used for builds targeting the production environment.
-
-> **Important**: Variables prefixed with `NEXT_PUBLIC_` are embedded into the client-side JavaScript bundle at build time. Ensure that `.env.prod` is updated with valid production keys (e.g., `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`) before deployment. Sensitive server-side secrets (like `CLERK_SECRET_KEY`) should be managed via GCP Secret Manager and not committed to these files.
-
-### Key Environment Variables
-
-| Variable | Description |
-| :--- | :--- |
-| `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` | Public key for Clerk authentication. |
-| `CLERK_SECRET_KEY` | Private key for Clerk authentication (Server-side). |
-| `NEXT_PUBLIC_CLERK_SIGN_IN_URL` | Route for the sign-in page (default: `/sign-in`). |
-| `NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL` | Redirect path after successful authentication. |
-| `NEXT_PUBLIC_API_URL` | Base URL for the primary API service. |
-| `NEXT_PUBLIC_PYTHON_API_URL` | Base URL for the Python backend service. |
-
-## Getting Started
-
-First, install dependencies and run the development server:
-
-```bash
-npm install
-npm run dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-## Available Scripts
-
-- `npm run dev`: Starts the development server.
-- `npm run build`: Builds the application for production.
-- `npm run start`: Starts the built production server.
-- `npm run lint`: Runs ESLint to check for code quality issues.
-- `npm test`: Runs the test suite using React Testing Library.
+# Frontend Project
 
 ## Deployment
 
-### Docker Build Configuration
+This project uses GitHub Actions for CI/CD, building Docker images and deploying them to Google Cloud Run.
 
-The `Dockerfile` utilizes a build argument `ENV_FILE` to determine which environment configuration to bake into the image during the build process. This is necessary for Next.js to correctly embed `NEXT_PUBLIC_` variables at build time.
+### GCP Infrastructure Details
 
-To build the image manually:
-```bash
-# Default (dev)
-docker build -t fvalenzuela .
+- **Region:** `us-central1`
+- **Container Image Name:** `gh-front-fvalenzuela`
 
-# Production build
-docker build --build-arg ENV_FILE=.env.prod -t fvalenzuela-prod .
-```
+| Environment | Artifact Registry Repository | Cloud Run Service | Build Config |
+|-------------|----------------------------|-------------------|--------------|
+| **Development** | `frontend-react-repo-dev` | `fvalenzuela-dev-deploy` | `ENV_FILE=.env.dev` |
+| **Production** | `images-front` | `fvalenzuela-prod-deploy` | `ENV_FILE=.env.prod` |
 
-### CI/CD Workflows
+## Core Features
 
-Automated deployments to Google Cloud Platform are handled via GitHub Actions:
-- **Development**: Triggered by the `.github/workflows/docker-gcp-dev.yml` workflow. Deploys to Cloud Run service `mi-app-next-dev-deploy`.
-- **Production**: Triggered by the `.github/workflows/docker-gcp-prod.yml` workflow. Deploys to Cloud Run service `prod-deploy`.
+### Dark Mode Support
+The application includes a dark mode toggle. 
+- **Persistence:** The theme preference is stored in `localStorage` under the key `theme`.
+- **Behavior:** The application respects the user's manual selection (`dark` or `light`). System color scheme preferences (`prefers-color-scheme`) are no longer used for automatic switching to ensure a consistent user-selected experience.
 
-Both workflows use a centralized reusable workflow defined in the organization's `.github` repository.
+## Author
+
+- **GitHub:** [fvalenzuela-dev](https://github.com/fvalenzuela-dev)
+- **LinkedIn:** [Fabián Valenzuela](https://www.linkedin.com/in/fvalenzuela-dev/)

@@ -1,19 +1,13 @@
-"use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
+import { SignedIn, UserButton } from "@clerk/nextjs";
 import { Icon } from "@iconify/react";
-import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
-import Search from "./Search";
-import Messages from "./Messages";
-import Profile from "./Profile";
-import Navigation from "./Navigation";
 
 const Header = () => {
-  const [isSticky, setIsSticky] = useState(false);
   const [isDark, setIsDark] = useState(false);
+  const [isSticky, setIsSticky] = useState(false);
 
-  // Initialize theme on mount
   useEffect(() => {
-    // Check if dark mode was previously saved or system preference
+    // Check if dark mode was previously saved
     const savedTheme = localStorage.getItem("theme");
 
     const shouldBeDark = savedTheme === "dark";
@@ -25,22 +19,13 @@ const Header = () => {
     } else {
       document.documentElement.classList.remove("dark");
     }
-  }, []);
 
-  useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 50) {
-        setIsSticky(true);
-      } else {
-        setIsSticky(false);
-      }
+      setIsSticky(window.scrollY > 0);
     };
 
     window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const toggleMode = () => {
@@ -58,54 +43,36 @@ const Header = () => {
 
   return (
     <header
-      className={`sticky top-0 z-[10] transition-all duration-200 ${isSticky
+      className={`sticky top-0 z-[10] transition-all duration-200 ${
+        isSticky
           ? "shadow-sm bg-white/95 dark:bg-dark/95 backdrop-blur-md border-b border-border dark:border-darkborder"
           : "bg-white dark:bg-dark border-b border-border dark:border-darkborder"
-        }`}
+      }`}
     >
       <nav className="flex items-center justify-between px-8 py-4">
         {/* Left Section - Search */}
-        <div className="flex gap-4 items-center min-w-0 flex-1">
-          <SignedIn>
-            <Search />
-          </SignedIn>
-        </div>
-
-        {/* Center Section - Navigation Menu */}
-        <div className="flex justify-center px-6">
-          <Navigation />
+        <div className="flex items-center gap-4 flex-1">
+          <div className="relative w-64">
+            <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-muted-foreground">
+              <Icon icon="lucide:search" width={18} />
+            </span>
+            <input
+              type="text"
+              placeholder="Search..."
+              className="w-full pl-10 pr-4 py-2 bg-secondary/50 border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all"
+            />
+          </div>
         </div>
 
         {/* Right Section - Actions */}
-        <div className="flex gap-4 items-center justify-end flex-1">
-          <div className="flex gap-2 items-center pr-4 border-r border-border dark:border-darkborder">
-            {/* Theme Toggle */}
-            {!isDark ? (
-              <button
-                className="group w-10 h-10 hover:bg-lightprimary/40 dark:hover:bg-white/10 rounded-full flex justify-center items-center cursor-pointer text-link dark:text-darklink hover:text-primary dark:hover:text-darklink transition-all duration-150"
-                onClick={toggleMode}
-                aria-label="Switch to dark mode"
-              >
-                <Icon icon="solar:moon-bold-duotone" width={20} />
-              </button>
-            ) : (
-              <button
-                className="group w-10 h-10 hover:bg-lightprimary/40 dark:hover:bg-white/10 rounded-full flex justify-center items-center cursor-pointer text-link dark:text-darklink hover:text-primary dark:hover:text-darklink transition-all duration-150"
-                onClick={toggleMode}
-                aria-label="Switch to light mode"
-              >
-                <Icon
-                  icon="solar:sun-bold-duotone"
-                  width={20}
-                />
-              </button>
-            )}
-
-            {/* Messages/Notifications Dropdown */}
-            <SignedIn>
-              <Messages />
-            </SignedIn>
-          </div>
+        <div className="flex items-center gap-4">
+          <button
+            onClick={toggleMode}
+            className="p-2 text-muted-foreground hover:bg-secondary rounded-lg transition-colors"
+            aria-label="Toggle Theme"
+          >
+            <Icon icon={isDark ? "lucide:sun" : "lucide:moon" } width={20} />
+          </button>
 
           {/* Authentication with Clerk */}
           <SignedIn>
@@ -113,18 +80,11 @@ const Header = () => {
               afterSignOutUrl="/dashboard"
               appearance={{
                 elements: {
-                  avatarBox: "w-9 h-9"
+                  avatarBox: "w-10 h-10"
                 }
               }}
             />
           </SignedIn>
-          <SignedOut>
-            <SignInButton mode="modal">
-              <button className="px-4 py-2 bg-primary hover:bg-primary/90 text-white rounded-md transition-colors">
-                Iniciar sesión
-              </button>
-            </SignInButton>
-          </SignedOut>
         </div>
       </nav>
     </header>
