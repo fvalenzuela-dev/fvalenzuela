@@ -200,7 +200,7 @@ export default function Dashboard() {
                   <Icon icon="skill-icons:linkedin" width={20} />
                 </a>
                 <a 
-                  href="https://github.com/kuroroluzbell"
+                  href="https://github.com/fvalenzuela-dev"
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="w-10 h-10 bg-white dark:bg-white/10 rounded-lg flex items-center justify-center text-dark dark:text-white hover:bg-dark hover:text-white transition-all duration-200"
