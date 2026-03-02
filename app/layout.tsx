@@ -44,8 +44,7 @@ export default function RootLayout({
               __html: `
               try {
                 const theme = localStorage.getItem('theme');
-                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-                if (theme === 'dark' || (!theme && prefersDark)) {
+                if (theme === 'dark') {
                   document.documentElement.classList.add('dark');
                 }
               } catch (e) {}
