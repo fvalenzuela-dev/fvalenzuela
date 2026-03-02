@@ -6,4 +6,13 @@ on:
 
 jobs:
   validate:
-    uses: fvalenzuela-dev/.github/.github/workflows/check-main.yml@main
+    runs-on: ubuntu-latest
+    steps:
+      - name: Only allow merges from develop
+        if: github.event.pull_request.head.ref != 'develop'
+        run: |
+          echo "❌ PRs to main are only allowed from the 'develop' branch."
+          echo "   Source branch detected: '${{ github.event.pull_request.head.ref }}'"
+          exit 1
+      - name: Source branch is valid
+        run: echo "✅ Source branch is 'develop'. Merge allowed."
