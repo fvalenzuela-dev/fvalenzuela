@@ -12,12 +12,13 @@ jobs:
       id-token: write
     uses: fvalenzuela-dev/.github/.github/workflows/build-and-push-docker-gcp.yml@main
     with:
-      image_name: "mi-app-next-prod"
+      image_name: "gh-front-fvalenzuela"
       dockerfile_path: "./Dockerfile"
       artifact_registry_region: "us-central1"
-      artifact_registry_repository: "app-frontend-react-repo"
-      cloudrun_service: "prod-deploy"
+      artifact_registry_repository: "images-front"
+      cloudrun_service: "fvalenzuela-prod-deploy"
       cloudrun_region: "us-central1"
+      build_args: "ENV_FILE=.env.prod"
     secrets:
       gcp_project_id: ${{ secrets.GCP_PROJECT_ID_PROD }}
       gcp_workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER_PROD }}
