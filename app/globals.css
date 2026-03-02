@@ -1,26 +1,339 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@variant dark (&:where(.dark, .dark *));
+
+/* Import CSS modules */
+@import './css/theme/colors.css';
+@import './css/theme/dark.css';
+@import './css/layouts/container.css';
+@import './css/layouts/sidebar.css';
+@import './css/layouts/horizontal.css';
+@import './css/layouts/header.css';
+@import './css/pages/dashboards.css';
+@import './css/pages/widgets.css';
+@import './css/pages/auth.css';
+@import './css/pages/app.css';
+@import './css/override/reboot.css';
+@import './css/layouts/rtl.css';
+
+/* Tailwind 4 Theme Configuration */
+@theme {
+  /* Dark mode configuration - use class-based dark mode */
+  --color-scheme: light dark;
+  --dark: class;
+  
+  /* Register CSS Custom Properties as Tailwind Colors */
+  --color-cyan: var(--color-cyan);
+  --color-darkcyan: var(--color-darkcyan);
+  --color-primary: var(--color-primary);
+  --color-secondary: var(--color-secondary);
+  --color-info: var(--color-info);
+  --color-success: var(--color-success);
+  --color-warning: var(--color-warning);
+  --color-error: var(--color-error);
+  --color-lightprimary: var(--color-lightprimary);
+  --color-lightsecondary: var(--color-lightsecondary);
+  --color-lightsuccess: var(--color-lightsuccess);
+  --color-lighterror: var(--color-lighterror);
+  --color-lightwarning: var(--color-lightwarning);
+  --color-border: var(--color-border);
+  --color-bordergray: var(--color-bordergray);
+  --color-lightgray: var(--color-lightgray);
+  --color-muted: var(--color-muted);
+  --color-bodytext: var(--color-bodytext);
+  --color-pink: var(--color-pink);
+  --color-herobg: var(--color-herobg);
+  --color-dark: var(--color-dark);
+  --color-link: var(--color-link);
+  --color-darklink: var(--color-darklink);
+  --color-darkborder: var(--color-darkborder);
+  --color-darkgray: var(--color-darkgray);
+  --color-darkinfo: var(--color-darkinfo);
+  --color-primaryemphasis: var(--color-primary-emphasis);
+  --color-secondaryemphasis: var(--color-secondary-emphasis);
+  --color-warningemphasis: var(--color-warning-emphasis);
+  --color-erroremphasis: var(--color-error-emphasis);
+  --color-successemphasis: var(--color-success-emphasis);
+  --color-infoemphasis: var(--color-info-emphasis);
+  --color-black: var(--color-black);
+
+  /* Custom Shadows */
+  --shadow-md: 0px 1px 4px 0px rgba(133, 146, 173, 0.2);
+  --shadow-lg: 0 1rem 3rem rgba(0, 0, 0, 0.175);
+  --shadow-dark-md: rgba(145, 158, 171, 0.3) 0px 0px 2px 0px, rgba(145, 158, 171, 0.02) 0px 12px 24px -4px;
+  --shadow-sm: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  --shadow-btn-shadow: rgba(0, 0, 0, .05) 0 9px 17.5px;
+  
+  /* Custom Border Radius */
+  --radius-sm: 4px;
+  --radius-md: 7px;
+  --radius-lg: 7px;
+  --radius-tw: 12px;
+  
+  /* Custom Spacing */
+  --spacing-15: 15px;
+  --spacing-30: 30px;
+  
+  /* Custom Line Heights */
+  --line-height-21: 21px;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer components {
+  .container {
+    @apply max-w-[1200px];
   }
-}
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  .landingpage .container {
+    @apply max-w-[1320px];
+  }
+
+  body {
+    @apply text-sm overflow-x-hidden dark:bg-dark;
+  }
+
+  .dropdown {
+    @apply shadow-md bg-white dark:bg-dark relative rounded-sm dark:shadow-dark-md;
+  }
+
+  .card-title {
+    @apply text-lg font-medium text-dark dark:text-white
+  }
+
+  .card-subtitle {
+    @apply text-sm dark:text-darklink text-darklink font-medium
+  }
+
+  body {
+    @apply text-link dark:text-darklink;
+  }
+
+  /*heading text color*/
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply text-dark dark:text-white font-semibold;
+  }
+
+
+  .border-ld {
+    @apply border-border dark:border-darkborder;
+  }
+
+  .bg-hover {
+    @apply hover:bg-lightgray hover:dark:bg-darkgray
+  }
+
+  .form-control input {
+    @apply border border-border dark:border-darkborder bg-transparent dark:bg-transparent w-full text-sm;
+  }
+
+  .form-control-chat input {
+    @apply rounded-md border-0 bg-transparent dark:bg-transparent w-full text-sm;
+  }
+
+  .form-control-chat input:focus {
+    @apply !border-0 bg-transparent dark:bg-transparent w-full text-sm ring-transparent dark:ring-transparent;
+  }
+
+  .form-control-rounded input {
+    @apply rounded-full border border-border dark:border-darkborder bg-transparent dark:bg-transparent w-full text-sm;
+  }
+
+  .form-control-rounded input:focus {
+    @apply border-primary dark:border-primary outline-none shadow-none ring-offset-0 ring-transparent;
+  }
+
+  .form-control-textarea {
+    @apply rounded-full border border-border dark:border-darkborder bg-transparent dark:bg-transparent w-full text-sm p-4;
+  }
+
+  .form-control-textarea:focus {
+    @apply border-primary dark:border-primary outline-none shadow-none ring-offset-0 ring-transparent;
+  }
+
+  .form-control input:focus {
+    @apply border-primary dark:border-primary outline-none shadow-none ring-offset-0 ring-transparent;
+  }
+
+  .form-control-input {
+    @apply rounded-md border border-border dark:border-darkborder bg-transparent dark:bg-transparent w-full text-sm;
+  }
+
+  .form-control-input:focus {
+    @apply border-primary dark:border-primary outline-none shadow-none ring-offset-0 ring-transparent;
+  }
+
+  .form-rounded-md input {
+    @apply rounded-md border border-border dark:border-darkborder bg-transparent dark:bg-transparent w-full text-sm;
+  }
+
+  .form-rounded-md input:focus {
+    @apply border-primary dark:border-primary outline-none shadow-none ring-offset-0 ring-transparent;
+  }
+
+  .form-rounded input {
+    @apply rounded-full
+  }
+
+
+  .input-center input {
+    @apply text-center;
+  }
+
+  .elipse {
+    @apply w-[18px] h-[10px]
+  }
+
+  input::placeholder {
+    @apply text-darklink dark:text-darklink
+  }
+
+  .select-option select {
+    @apply bg-muted border-0 text-darklink dark:text-white/80 py-2 ps-4 pe-9 w-auto focus:border-0 focus:ring-0 font-medium;
+  }
+
+  .select-md select {
+    @apply bg-white dark:bg-black w-full text-sm rounded-md focus:border-primary dark:focus:border-primary focus:ring-0 pr-8 border-border dark:border-darkborder;
+  }
+
+  .select-rounded select {
+    @apply bg-transparent dark:bg-dark w-full text-sm rounded-full focus:border-primary dark:focus:border-primary focus:ring-0 border-border dark:border-darkborder;
+  }
+
+  .select-md-transparent select {
+    @apply bg-transparent dark:bg-gray-800/70 w-full text-sm rounded-md focus:border-primary dark:focus:border-primary focus:ring-0 border-border dark:border-darkborder;
+  }
+
+  .select-rounded-transparent select {
+    @apply bg-transparent dark:bg-gray-800/70 w-full text-sm rounded-full focus:border-primary dark:focus:border-primary focus:ring-0 border-border dark:border-darkborder;
+  }
+
+  .checkbox {
+    @apply h-[18px] w-[18px] border border-bordergray dark:border-darkborder bg-transparent focus:ring-0 focus:ring-offset-0
+  }
+
+  .text-primary-ld {
+    @apply hover:text-primary dark:hover:text-primary;
+  }
+
+  /* Apps */
+  .left-part {
+    @apply w-80 border-e p-6 border-border dark:border-darkborder;
+  }
+
+  .btn-circle {
+    @apply h-8 w-8 rounded-full flex justify-center items-center p-0 text-dark dark:text-white;
+  }
+
+  .btn-circle-hover {
+    @apply h-9 w-9 flex justify-center items-center rounded-full hover:bg-lightprimary hover:text-primary cursor-pointer bg-transparent
+  }
+
+  .text-ld {
+    @apply text-dark dark:text-white;
+  }
+
+  .avatar-full img {
+    @apply w-full h-full;
+  }
+
+  .sorting button {
+    @apply bg-transparent text-dark dark:text-white p-0
+  }
+
+  .sorting button:hover {
+    @apply bg-transparent
+  }
+
+  .sorting button span {
+    @apply p-0
+  }
+
+  .sorting ul li {
+    @apply px-4 py-2
+  }
+
+  .sorting ul li button:hover {
+    @apply hover:text-primary
+  }
+
+  /* Button Hover Color Set */
+  button.bg-primary {
+    @apply hover:bg-primaryemphasis
+  }
+
+  button.bg-secondary {
+    @apply hover:bg-secondaryemphasis
+  }
+
+  button.bg-info {
+    @apply hover:bg-infoemphasis
+  }
+
+  button.bg-error {
+    @apply hover:bg-erroremphasis
+  }
+
+  button.bg-success {
+    @apply hover:bg-successemphasis
+  }
+
+  button.bg-warning {
+    @apply hover:bg-warningemphasis
+  }
+
+
+  /* Headlessui */
+  .ui-button {
+    @apply flex items-stretch justify-between text-center py-2.5 px-5 text-white text-center font-medium rounded-full
+  }
+
+  .ui-button-small {
+    @apply flex items-stretch justify-between text-center py-2 px-6 text-white text-center font-medium rounded-full
+  }
+
+  .ui-dropdown {
+    @apply w-full !max-w-56 bg-white dark:bg-dark shadow-md dark:shadow-dark-md text-start rounded-sm py-3 text-dark dark:text-white
+  }
+
+  .ui-dropdown-notifications {
+    @apply w-full bg-lightprimary dark:bg-darkgray shadow-md dark:shadow-dark-md text-start rounded-sm text-dark dark:text-white
+  }
+
+  .ui-dropdown-item {
+    @apply flex w-full gap-3 cursor-pointer items-center justify-start px-4 py-2 text-sm hover:text-primary focus:outline-none text-dark dark:text-white hover:bg-lightgray hover:dark:bg-darkgray focus:bg-lightgray focus:dark:bg-darkgray
+  }
+
+  .ui-dropdown-animation {
+    @apply origin-top-right transition duration-100 ease-out [--anchor-gap:var(--spacing-1)] focus:outline-none data-[closed]:scale-95 data-[closed]:opacity-0
+  }
+
+  .ui-form-control {
+    @apply border border-border dark:border-darkborder bg-transparent dark:bg-transparent w-full text-sm;
+  }
+
+  .ui-form-control:focus {
+    @apply border-primary dark:border-primary outline-none shadow-none ring-offset-0 ring-transparent dark:ring-transparent focus:dark:ring-0;
+  }
+
+  .ui-checkbox {
+    @apply h-[18px] w-[18px] border border-bordergray dark:border-darkborder bg-white dark:bg-transparent data-[checked]:bg-primary dark:data-[checked]:bg-primary rounded cursor-pointer focus:ring-0 focus:ring-offset-0 outline-none
+  }
+
+  .ui-link {
+    @apply text-primary dark:text-white font-semibold transition-colors duration-150 hover:text-primaryemphasis dark:hover:text-darklink
+  }
+
+  /* Hide Clerk branding badge */
+  .cl-internal-b3fm6y {
+    @apply !hidden;
+  }
+
+  .cl-footerAction,
+  .cl-footer {
+    @apply !hidden;
+  }
 }

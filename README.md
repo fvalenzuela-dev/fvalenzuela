@@ -1,36 +1,81 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# FValenzuela
+
+## Project Overview
+
+FValenzuela is a monolith application built with **Next.js 15**, **React 19**, and **Tailwind CSS v4**. It serves as a personal portfolio and a multi-app hub, hosting various web applications as sub-routes under a single domain. The project is integrated with **Clerk** for authentication and configured for automated deployment to **GCP (Google Cloud Platform)** via **Cloud Run**.
+
+For project-specific coding guidelines and standards for AI agents, please refer to [AGENTS.md](./AGENTS.md).
+
+## Environment Configuration
+
+This project uses environment variables to manage configuration across different environments (Development, Production, and Local). These variables handle Clerk authentication and API endpoint routing.
+
+### Local Development
+
+To set up your local environment, copy the example environment file and fill in the required values:
+
+```bash
+cp .env.example .env.local
+```
+
+### Environment Files
+
+The following environment files are tracked in the repository and used by the CI/CD pipeline:
+- `.env.example`: A template for local development.
+- `.env.dev`: Configuration used for builds targeting the development environment.
+- `.env.prod`: Configuration used for builds targeting the production environment.
+
+> **Important**: Variables prefixed with `NEXT_PUBLIC_` are embedded into the client-side JavaScript bundle at build time. Ensure that `.env.prod` is updated with valid production keys (e.g., `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`) before deployment. Sensitive server-side secrets (like `CLERK_SECRET_KEY`) should be managed via GCP Secret Manager and not committed to these files.
+
+### Key Environment Variables
+
+| Variable | Description |
+| :--- | :--- |
+| `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` | Public key for Clerk authentication. |
+| `CLERK_SECRET_KEY` | Private key for Clerk authentication (Server-side). |
+| `NEXT_PUBLIC_CLERK_SIGN_IN_URL` | Route for the sign-in page (default: `/sign-in`). |
+| `NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL` | Redirect path after successful authentication. |
+| `NEXT_PUBLIC_API_URL` | Base URL for the primary API service. |
+| `NEXT_PUBLIC_PYTHON_API_URL` | Base URL for the Python backend service. |
 
 ## Getting Started
 
-First, run the development server:a
+First, install dependencies and run the development server:
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Available Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `npm run dev`: Starts the development server.
+- `npm run build`: Builds the application for production.
+- `npm run start`: Starts the built production server.
+- `npm run lint`: Runs ESLint to check for code quality issues.
+- `npm test`: Runs the test suite using React Testing Library.
 
-## Learn More
+## Deployment
 
-To learn more about Next.js, take a look at the following resources:
+### Docker Build Configuration
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The `Dockerfile` utilizes a build argument `ENV_FILE` to determine which environment configuration to bake into the image during the build process. This is necessary for Next.js to correctly embed `NEXT_PUBLIC_` variables at build time.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+To build the image manually:
+```bash
+# Default (dev)
+docker build -t fvalenzuela .
 
-## Deploy on Vercel
+# Production build
+docker build --build-arg ENV_FILE=.env.prod -t fvalenzuela-prod .
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### CI/CD Workflows
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details
+Automated deployments to Google Cloud Platform are handled via GitHub Actions:
+- **Development**: Triggered by the `.github/workflows/docker-gcp-dev.yml` workflow. Deploys to Cloud Run service `mi-app-next-dev-deploy`.
+- **Production**: Triggered by the `.github/workflows/docker-gcp-prod.yml` workflow. Deploys to Cloud Run service `prod-deploy`.
+
+Both workflows use a centralized reusable workflow defined in the organization's `.github` repository.
