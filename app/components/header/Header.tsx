@@ -15,11 +15,10 @@ const Header = () => {
   useEffect(() => {
     // Check if dark mode was previously saved or system preference
     const savedTheme = localStorage.getItem("theme");
-    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-    
-    const shouldBeDark = savedTheme === "dark" || (!savedTheme && prefersDark);
+
+    const shouldBeDark = savedTheme === "dark";
     setIsDark(shouldBeDark);
-    
+
     // Apply the class immediately
     if (shouldBeDark) {
       document.documentElement.classList.add("dark");
@@ -47,7 +46,7 @@ const Header = () => {
   const toggleMode = () => {
     const newIsDark = !isDark;
     setIsDark(newIsDark);
-    
+
     if (newIsDark) {
       document.documentElement.classList.add("dark");
       localStorage.setItem("theme", "dark");
@@ -59,11 +58,10 @@ const Header = () => {
 
   return (
     <header
-      className={`sticky top-0 z-[10] transition-all duration-200 ${
-        isSticky
+      className={`sticky top-0 z-[10] transition-all duration-200 ${isSticky
           ? "shadow-sm bg-white/95 dark:bg-dark/95 backdrop-blur-md border-b border-border dark:border-darkborder"
           : "bg-white dark:bg-dark border-b border-border dark:border-darkborder"
-      }`}
+        }`}
     >
       <nav className="flex items-center justify-between px-8 py-4">
         {/* Left Section - Search */}
@@ -111,7 +109,7 @@ const Header = () => {
 
           {/* Authentication with Clerk */}
           <SignedIn>
-            <UserButton 
+            <UserButton
               afterSignOutUrl="/dashboard"
               appearance={{
                 elements: {

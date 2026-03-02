@@ -190,18 +190,18 @@ export default function Dashboard() {
                 Ingeniero en Ejecución en Informática con más de 20 años impulsando la transformación digital a través de software de alto impacto.
               </p>
               <div className="flex items-center gap-3">
-                <a 
-                  href="https://www.linkedin.com/in/fernando-valenzuela-08002a71/" 
-                  target="_blank" 
+                <a
+                  href="https://www.linkedin.com/in/fernando-valenzuela-08002a71/"
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="w-10 h-10 bg-white dark:bg-white/10 rounded-lg flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-all duration-200"
                   aria-label="LinkedIn"
                 >
                   <Icon icon="skill-icons:linkedin" width={20} />
                 </a>
-                <a 
-                  href="https://github.com/kuroroluzbell"
-                  target="_blank" 
+                <a
+                  href="https://github.com/fvalenzuela-dev"
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="w-10 h-10 bg-white dark:bg-white/10 rounded-lg flex items-center justify-center text-dark dark:text-white hover:bg-dark hover:text-white transition-all duration-200"
                   aria-label="GitHub"
@@ -217,7 +217,7 @@ export default function Dashboard() {
               </div>
             </div>
           </div>
-          
+
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
             <div className="flex items-start gap-3 p-4 bg-white dark:bg-dark rounded-xl border border-border dark:border-darkborder">
               <div className="w-10 h-10 bg-primary/20 rounded-lg flex items-center justify-center flex-shrink-0">
@@ -266,7 +266,7 @@ export default function Dashboard() {
                 Llevo más de 20 años descifrando el lenguaje de las máquinas como Ingeniero de Software. En estas dos décadas he visto tecnologías nacer y morir, pero mi curiosidad sigue siendo la misma que el primer día. No solo construyo sistemas; me apasiona entender cómo la tecnología puede simplificarnos la vida, manteniéndome siempre en la primera línea de estudio de lo que está por venir.
               </p>
               <p className="font-medium text-dark dark:text-white">Pero la vida no solo ocurre frente a un monitor. Para mantener la mente aguda y el espíritu equilibrado, cultivo mundos que me apasionan:</p>
-<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="flex items-start gap-3 p-4 bg-lightgray dark:bg-white/5 rounded-lg">
                   <div className="w-10 h-10 bg-primary/20 rounded-lg flex items-center justify-center flex-shrink-0">
                     <Icon icon="solar:chart-bold" className="text-primary" width={20} />
@@ -317,7 +317,7 @@ export default function Dashboard() {
           </h2>
           <div className="space-y-4">
             {experience.map((exp, index) => (
-              <div 
+              <div
                 key={index}
                 className="bg-white dark:bg-dark rounded-xl border border-border dark:border-darkborder p-5"
               >
@@ -461,7 +461,7 @@ export default function Dashboard() {
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {certifications.map((cert, index) => (
-              <a 
+              <a
                 key={index}
                 href={cert.url}
                 target="_blank"
