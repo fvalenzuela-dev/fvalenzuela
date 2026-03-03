@@ -13,8 +13,8 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
 # Select environment file: .env.dev (default) or .env.prod
-ARG ENV_FILE=.env.dev
-COPY ${ENV_FILE} .env.production
+#ARG ENV_FILE=.env.dev
+#COPY ${ENV_FILE} .env.production
 
 ENV NEXT_TELEMETRY_DISABLED=1
 RUN npm run build
