@@ -14,9 +14,6 @@ This project uses environment variables to manage configuration across different
 
 To set up your local environment, copy the example environment file and fill in the required values:
 
-```bash
-cp .env.example .env.local
-```
 
 ### Environment Files
 
