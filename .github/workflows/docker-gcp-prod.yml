@@ -18,7 +18,6 @@ jobs:
       artifact_registry_repository: "images-front"
       cloudrun_service: "fvalenzuela-prod-deploy"
       cloudrun_region: "us-central1"
-      build_args: "ENV_FILE=.env.prod"
     secrets:
       gcp_project_id: ${{ secrets.GCP_PROJECT_ID_PROD }}
       gcp_workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER_PROD }}
