@@ -18,7 +18,6 @@ jobs:
       artifact_registry_repository: "frontend-react-repo-dev"
       cloudrun_service: "fvalenzuela-dev-deploy"
       cloudrun_region: "us-central1"
-      build_args: "ENV_FILE=.env.dev"
     secrets:
       gcp_project_id: ${{ secrets.GCP_PROJECT_ID_DEV }}
       gcp_workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER_DEV }}
