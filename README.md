@@ -38,12 +38,19 @@ The following variables must be provided during the Docker build phase:
 
 #### GitHub Actions Integration
 
-Our CI/CD pipelines automatically inject these variables using GitHub Secrets. This is configured in the following workflows:
+Our CI/CD pipelines automatically inject these variables using **GitHub Action Variables** (and Secrets for project identifiers). This is configured in the following workflows:
 
-- **Development**: `.github/workflows/docker-gcp-dev.yml` (uses `*_DEV` secrets).
-- **Production**: `.github/workflows/docker-gcp-prod.yml` (uses `*_PROD` secrets).
+- **Development**: `.github/workflows/docker-gcp-dev.yml` (uses `*_DEV` variables).
+- **Production**: `.github/workflows/docker-gcp-prod.yml` (uses `*_PROD` variables).
 
 ## Getting Started
+
+### Prerequisites
+
+- Node.js 18 or 20
+- Docker (for containerized environments)
+
+### Installation
 
 First, install the dependencies:
 
@@ -65,25 +72,3 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 - `npm run build`: Builds the application for production.
 - `npm run start`: Starts the built production server.
 - `npm run lint`: Runs ESLint to check for code quality issues.
-
-## Deployment
-
-### Manual Docker Build
-
-To build the image locally with the same logic used in the pipeline, use `--build-arg` for each public variable:
-
-```bash
-docker build \
-  --build-arg NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your_key_here \
-  --build-arg NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in \
-  --build-arg NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=/ \
-  --build-arg NEXT_PUBLIC_API_URL=https://api.example.com/api \
-  --build-arg NEXT_PUBLIC_PYTHON_API_URL=https://python.example.com \
-  -t fvalenzuela .
-```
-
-### Automated Deployment
-
-Deployment to Google Cloud Run is automated via GitHub Actions. 
-- Pushes to feature branches trigger code validation.
-- Pushes to the configured deployment branches (integrated with GCP Workflows) trigger the Docker build and deployment to the respective environment (Dev/Prod).
