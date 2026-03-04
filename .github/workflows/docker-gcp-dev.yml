@@ -18,7 +18,12 @@ jobs:
       artifact_registry_repository: "frontend-react-repo-dev"
       cloudrun_service: "fvalenzuela-dev-deploy"
       cloudrun_region: "us-central1"
-      build_args: "ENV_FILE=.env.dev"
+      build_args: |
+        NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=${{ vars.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY_DEV }}
+        NEXT_PUBLIC_CLERK_SIGN_IN_URL=${{ vars.NEXT_PUBLIC_CLERK_SIGN_IN_URL_DEV }}
+        NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=${{ vars.NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL_DEV }}
+        NEXT_PUBLIC_API_URL=${{ vars.NEXT_PUBLIC_API_URL_DEV }}
+        NEXT_PUBLIC_PYTHON_API_URL=${{ vars.NEXT_PUBLIC_PYTHON_API_URL_DEV }}
     secrets:
       gcp_project_id: ${{ secrets.GCP_PROJECT_ID_DEV }}
       gcp_workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER_DEV }}
