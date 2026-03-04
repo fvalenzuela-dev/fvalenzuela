@@ -12,7 +12,7 @@ jobs:
       id-token: write
     uses: fvalenzuela-dev/.github/.github/workflows/build-and-push-docker-gcp.yml@main
     with:
-      mage_name: "gh-front-fvalenzuela"
+      image_name: "gh-front-fvalenzuela"
       dockerfile_path: "./Dockerfile"
       artifact_registry_region: "us-central1"
       artifact_registry_repository: "images-front"
