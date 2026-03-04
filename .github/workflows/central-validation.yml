@@ -1,10 +1,9 @@
-name: Pipeline Backend Ejemplo
-
+name: Pipeline validation code
+ 
 on:
   push:
     branches-ignore:
       - main
-      - qa
       - develop
 
 jobs:
