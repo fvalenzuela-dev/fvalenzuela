@@ -72,3 +72,48 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 - `npm run build`: Builds the application for production.
 - `npm run start`: Starts the built production server.
 - `npm run lint`: Runs ESLint to check for code quality issues.
+
+<!-- AUTO-README:START -->
+## Project Metadata
+
+- **Package:** `fvalenzuela`
+- **Version:** `1.0.9`
+
+### Scripts
+
+| Script | Command |
+| --- | --- |
+| `build` | `next build` |
+| `dev` | `next dev` |
+| `lint` | `eslint` |
+| `start` | `next start` |
+| `test` | `jest` |
+
+### Dependencies
+
+- `@clerk/nextjs` `^6.37.3`
+- `@headlessui/react` `^2.2.9`
+- `@iconify/react` `^4.1.1`
+- `next` `16.1.6`
+- `react` `19.2.3`
+- `react-dom` `19.2.3`
+
+### Dev Dependencies
+
+- `@tailwindcss/postcss` `^4`
+- `@testing-library/jest-dom` `^6.9.1`
+- `@testing-library/react` `^16.3.2`
+- `@types/jest` `^30.0.0`
+- `@types/node` `^20`
+- `@types/react` `^19`
+- `@types/react-dom` `^19`
+- `eslint` `^9`
+- `eslint-config-next` `16.1.6`
+- `identity-obj-proxy` `^3.0.0`
+- `jest` `^30.2.0`
+- `jest-environment-jsdom` `^30.2.0`
+- `lcov` `^1.16.0`
+- `tailwindcss` `^4`
+- `ts-node` `^10.9.2`
+- `typescript` `^5`
+<!-- AUTO-README:END -->

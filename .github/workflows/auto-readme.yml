@@ -1,0 +1,43 @@
+name: 📝 Auto README
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - "package.json"
+      - "package-lock.json"
+      - "scripts/auto-readme.js"
+      - "README.md"
+      - ".github/workflows/auto-readme.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Generate README metadata
+        run: node scripts/auto-readme.js
+
+      - name: Commit README updates
+        run: |
+          if git status --porcelain | grep -q "README.md"; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add README.md
+            git commit -m "chore: sync README metadata"
+            git push
+          else
+            echo "README is already up to date."
+          fi
