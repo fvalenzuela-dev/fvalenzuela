@@ -1,6 +1,9 @@
+import { fileURLToPath } from "node:url";
 import { defineConfig, globalIgnores } from "eslint/config";
 import nextVitals from "eslint-config-next/core-web-vitals";
 import nextTs from "eslint-config-next/typescript";
+
+const tsconfigRootDir = fileURLToPath(new URL(".", import.meta.url));
 
 const eslintConfig = defineConfig([
   ...nextVitals,
@@ -14,10 +17,26 @@ const eslintConfig = defineConfig([
     "next-env.d.ts",
   ]),
   {
+    files: ["**/*.ts", "**/*.tsx", "**/*.mts"],
+    languageOptions: {
+      parserOptions: {
+        project: "./tsconfig.json",
+        tsconfigRootDir,
+      },
+    },
     rules: {
-      "@typescript-eslint/no-confusing-void-expression": ["error", { "ignoreArrowShorthand": true }]
-    }
-  }
+      "@typescript-eslint/no-confusing-void-expression": ["error", { "ignoreArrowShorthand": true }],
+    },
+  },
+  {
+    files: ["scripts/**/*.js"],
+    languageOptions: {
+      sourceType: "commonjs",
+    },
+    rules: {
+      "@typescript-eslint/no-require-imports": "off",
+    },
+  },
 ]);
 
 export default eslintConfig;
