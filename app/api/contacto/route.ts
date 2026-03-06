@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
 
-export async function POST(request: NextRequest) {
+export async function POST(request: NextRequest): Promise<NextResponse> {
   try {
     const apiKey = process.env.RESEND_API_KEY;
     if (!apiKey) {
@@ -26,17 +26,11 @@ export async function POST(request: NextRequest) {
       from: "Formulario Contacto <onboarding@resend.dev>",
       to: ["fernando.valenzuela@fvalenzuela.cl"],
       subject: `Nuevo mensaje de contacto de ${name}`,
-      text: `
-Nombre: ${name}
-Email: ${email}
-
-Mensaje:
-${message}
-      `.trim(),
+      text: `Nombre: ${name}\nEmail: ${email}\n\nMensaje:\n${message}`,
     });
 
     return NextResponse.json({ success: true, data });
-  } catch (error) {
+  } catch (error: unknown) {
     const errorMessage = error instanceof Error ? error.message : "Unknown error";
     return NextResponse.json(
       { error: errorMessage },
