@@ -29,9 +29,8 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       );
     }
 
-    // eslint-disable-next-line @codacy/gha-non-html-variable
     const data = await resend.emails.send({
-      from: "Formulario Contacto <onboarding@resend.dev>",
+      from: "onboarding@resend.dev",
       to: ["fernando.valenzuela@fvalenzuela.cl"],
       subject: `Nuevo mensaje de contacto de ${name}`,
       text: `Nombre: ${name}\nEmail: ${email}\n\nMensaje:\n${message}`,
