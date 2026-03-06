@@ -1,74 +1,86 @@
 # fvalenzuela
 
-Next.js frontend application with Docker and GCP integration.
+Versión: 1.0.9
 
-## Project Overview
+## Descripción
 
-fvalenzuela is a frontend application built with **Next.js 15**, **React 19**, and **Tailwind CSS v4**. It serves as a personal portfolio and a multi-app hub. The project is integrated with **Clerk** for authentication and configured for automated deployment to **GCP (Google Cloud Platform)** via **Cloud Run**.
+Este proyecto es una aplicación construida con **Next.js 16**, **React 19** y **Tailwind CSS v4**. Sirve como portafolio personal e integra un sistema de autenticación con Clerk, estilos modernos y un servicio de mensajería mediante Resend. La aplicación está configurada para el despliegue automatizado en **GCP (Google Cloud Platform)** a través de **Cloud Run**.
 
-For project-specific coding guidelines and standards for AI agents, please refer to [AGENTS.md](./AGENTS.md).
+Para pautas de codificación específicas del proyecto y estándares para agentes de IA, consulte [AGENTS.md](./AGENTS.md).
 
-## Environment Variables
+## Características
 
-This project uses environment variables to manage configuration across different environments. Variables prefixed with `NEXT_PUBLIC_` are embedded into the JavaScript bundle at build time. 
+- **Formulario de Contacto**: Interfaz interactiva ubicada en `/contacto` que permite a los usuarios enviar mensajes con validación en tiempo real y manejo de estados (carga, éxito y error).
+- **Integración con Resend**: Procesamiento de correos electrónicos mediante una API Route (`/api/contacto`) utilizando el SDK oficial de Resend.
+- **Autenticación**: Gestión segura de usuarios mediante **Clerk**.
+- **Diseño**: Componentes modernos con soporte para modo oscuro y diseño responsivo utilizando Tailwind CSS v4.
 
-### Local Development
+## Instalación
 
-For local development, use a `.env.local` file. This file is excluded from version control.
+1. Instala las dependencias:
+   ```bash
+   npm install
+   ```
 
-To set up your local environment, copy the example environment file and fill in the values:
+2. Configura las variables de entorno (ver sección abajo).
+
+## Variables de Entorno
+
+Este proyecto utiliza variables de entorno para gestionar la configuración. Las variables con el prefijo `NEXT_PUBLIC_` se incrustan en el bundle de JavaScript en tiempo de compilación.
+
+### Desarrollo Local
+
+Copia el archivo `.env.example` a `.env.local` y completa los valores requeridos:
 
 ```bash
 cp .env.example .env.local
 ```
 
-### CI/CD and Docker Builds
+### APIs y Servicios
 
-Environment variables are no longer loaded from static files (like `.env.dev` or `.env.prod`) during the Docker build process. Instead, they are passed as **Docker build arguments**. This ensures that the build-time constants required by Next.js are correctly baked into the production bundle.
+- `NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL`: Ruta de redirección tras el inicio de sesión.
+- `NEXT_PUBLIC_API_URL`: URL de la API principal.
+- `NEXT_PUBLIC_PYTHON_API_URL`: URL de la API de Python.
+- `RESEND_API_KEY`: Clave de API necesaria para habilitar el envío de correos desde el formulario de contacto.
 
-#### Required Build Arguments
+## CI/CD y Construcción Docker
 
-The following variables must be provided during the Docker build phase:
+Las variables de entorno ya no se cargan desde archivos estáticos durante el proceso de construcción de Docker. En su lugar, se pasan como **Docker build arguments**. Esto asegura que las constantes necesarias para Next.js se incorporen correctamente en el bundle de producción.
 
-- `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`: Clerk publishable key.
-- `NEXT_PUBLIC_CLERK_SIGN_IN_URL`: Path for the sign-in page.
-- `NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL`: Redirect path after sign-in.
-- `NEXT_PUBLIC_API_URL`: The main API endpoint.
-- `NEXT_PUBLIC_PYTHON_API_URL`: The Python-specific API endpoint.
+### Argumentos de Construcción Requeridos
 
-#### GitHub Actions Integration
+Los siguientes valores deben proporcionarse durante la fase de construcción de Docker:
+- `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`
+- `NEXT_PUBLIC_CLERK_SIGN_IN_URL`
+- `NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL`
+- `NEXT_PUBLIC_API_URL`
+- `NEXT_PUBLIC_PYTHON_API_URL`
+- `RESEND_API_KEY`
 
-Our CI/CD pipelines automatically inject these variables using **GitHub Action Variables** (and Secrets for project identifiers). This is configured in the following workflows:
+## Desarrollo
 
-- **Development**: `.github/workflows/docker-gcp-dev.yml` (uses `*_DEV` variables).
-- **Production**: `.github/workflows/docker-gcp-prod.yml` (uses `*_PROD` variables).
-
-## Getting Started
-
-### Prerequisites
-
-- Node.js 18 or 20
-- Docker (for containerized environments)
-
-### Installation
-
-First, install the dependencies:
-
-```bash
-npm install
-```
-
-Then, run the development server:
+Para iniciar el servidor de desarrollo:
 
 ```bash
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## API Endpoints
 
-### Scripts
+### `POST /api/contacto`
 
-- `npm run dev`: Starts the development server with Hot Module Replacement.
-- `npm run build`: Builds the application for production.
-- `npm run start`: Starts the built production server.
-- `npm run lint`: Runs ESLint to check for code quality issues.
+Envía un correo electrónico basado en la información del formulario de contacto.
+
+**Cuerpo de la solicitud (JSON):**
+```json
+{
+  "name": "Nombre del usuario",
+  "email": "correo@ejemplo.com",
+  "message": "Contenido del mensaje"
+}
+```
+
+**Respuestas:**
+- `200 OK`: Mensaje enviado con éxito.
+- `400 Bad Request`: Faltan campos obligatorios.
+- `500 Internal Server Error`: Error en el servicio Resend o API Key no configurada.
