@@ -2,17 +2,28 @@
 
 import React, { useState } from "react";
 
+/**
+ * Interfaz para los campos del formulario de contacto.
+ */
 interface FormData {
   name: string;
   email: string;
   message: string;
 }
 
+/**
+ * Interfaz para el estado de envío del formulario.
+ */
 interface FormStatus {
   type: "idle" | "loading" | "success" | "error";
   message: string;
 }
 
+/**
+ * Página de Contacto.
+ * Renderiza un formulario interactivo que permite a los usuarios enviar mensajes.
+ * Gestiona el estado local, validación de campos y comunicación con la API de contacto.
+ */
 export default function ContactoPage() {
   const [formData, setFormData] = useState<FormData>({
     name: "",
@@ -58,7 +69,7 @@ export default function ContactoPage() {
       <h1 className="text-4xl font-bold text-dark dark:text-white mb-6">
         Contacto
       </h1>
-      <div className="bg-white dark:bg-dark rounded-md shadow-md p-8 border border-border dark:border-darkborder">
+      <div className="max-w-2xl bg-white dark:bg-darkcard p-8 rounded-lg shadow-md border border-border dark:border-darkborder">
         <p className="text-link dark:text-darklink mb-6">
           ¿Tienes alguna pregunta? Contáctanos y te responderemos lo antes posible.
         </p>

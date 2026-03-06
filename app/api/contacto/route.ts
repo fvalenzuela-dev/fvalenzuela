@@ -1,6 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
 
+/**
+ * Endpoint POST para procesar el formulario de contacto y enviar un correo electrónico.
+ * Valida los campos requeridos y utiliza el servicio Resend para el envío.
+ *
+ * @param {NextRequest} request - Objeto de solicitud que contiene name, email y message en el body.
+ * @returns {Promise<NextResponse>} Respuesta JSON con el estado de la operación (success: true o error).
+ */
 export async function POST(request: NextRequest): Promise<NextResponse> {
   try {
     const apiKey = process.env.RESEND_API_KEY;
