@@ -1,6 +1,6 @@
 # fvalenzuela
 
-Versión: 1.0.9
+Versión: 1.1.0
 
 ## Descripción
 
@@ -42,6 +42,7 @@ cp .env.example .env.local
 - `NEXT_PUBLIC_API_URL`: URL de la API principal.
 - `NEXT_PUBLIC_PYTHON_API_URL`: URL de la API de Python.
 - `RESEND_API_KEY`: Clave de API necesaria para habilitar el envío de correos desde el formulario de contacto.
+- `CONTACT_EMAIL_DESTINATION`: Correo electrónico de destino donde se enviarán los mensajes del formulario de contacto.
 
 ## CI/CD y Construcción Docker
 
@@ -56,6 +57,7 @@ Los siguientes valores deben proporcionarse durante la fase de construcción de 
 - `NEXT_PUBLIC_API_URL`
 - `NEXT_PUBLIC_PYTHON_API_URL`
 - `RESEND_API_KEY`
+- `CONTACT_EMAIL_DESTINATION`
 
 ## Desarrollo
 

@@ -29,9 +29,17 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       );
     }
 
+    const destinationEmail = process.env.CONTACT_EMAIL_DESTINATION;
+    if (!destinationEmail) {
+      return NextResponse.json(
+        { error: "Email de destino no configurado" },
+        { status: 500 }
+      );
+    }
+
     const data = await resend.emails.send({
-      from: "onboarding@resend.dev",
-      to: ["fernando.valenzuela@fvalenzuela.cl"],
+      from: "fvi@fvalenzuela.dev",
+      to: [destinationEmail],
       subject: `Nuevo mensaje de contacto de ${name}`,
       text: `Nombre: ${name}\nEmail: ${email}\n\nMensaje:\n${message}`,
     });
