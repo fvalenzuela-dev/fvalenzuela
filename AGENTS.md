@@ -4,13 +4,14 @@ This document provides guidelines for agentic coding agents operating in this re
 
 ## Project Overview
 
-This is a **Next.js 15** monolith application with **React 19** and **TypeScript**. It serves as a personal portfolio and multi-app hub under a single domain. It uses:
+This is a **Next.js 16** monolith application with **React 19** and **TypeScript**. It serves as a personal portfolio and multi-app hub under a single domain. It uses:
 - **@clerk/nextjs** for authentication
 - **@headlessui/react** for UI components
 - **@iconify/react** for icons
-- **Tailwind CSS v4** for styling
+- **@tailwindcss/postcss** v4 for styling
+- **resend** for email functionality
 
-The project hosts multiple web applications as sub-routes (e.g., `/auth/auth1`, `/auth/auth2`) within a single Next.js app, avoiding the need for multiple domains.
+The project hosts multiple web applications as sub-routes (e.g., `/auth/auth1`, `/auth/auth2`, `/dashboard`, `/generador-ideas`, `/contacto`) within a single Next.js app, avoiding the need for multiple domains.
 
 ## Build Commands
 
@@ -47,14 +48,27 @@ Tests are located in the `__tests__/` directory and use React Testing Library.
 ```
 ├── __tests__/          # Unit and integration tests
 ├── app/                # Next.js App Router pages
+│   ├── api/            # API routes (e.g., contacto)
 │   ├── components/     # Reusable UI components
-│   │   ├── header/     # Header-specific components
 │   │   ├── auth/       # Authentication components
+│   │   ├── dashboard/  # Dashboard-specific components
+│   │   ├── header/     # Header-specific components
 │   │   └── shared/     # Shared/common components
 │   ├── css/            # Stylesheets
+│   │   ├── layouts/    # Layout styles
+│   │   ├── override/   # Override styles
+│   │   ├── pages/      # Page-specific styles
+│   │   └── theme/      # Theme configuration
 │   ├── auth/           # Auth-related pages (Login/Register variants)
-│   └── [other routes]/ # Feature pages
-└── lib/                # Utility functions and helpers
+│   ├── contacto/       # Contact page
+│   ├── dashboard/      # Dashboard page
+│   ├── generador-ideas/# Idea generator page
+│   └── sign-in/        # Clerk sign-in page
+├── lib/                # Utility functions and helpers
+│   ├── api-client.ts   # fetchWithAuth and authenticated fetch utilities
+│   ├── permissions.ts  # Permission system using Clerk metadata
+│   └── ProtectedPage.tsx # Component for permission-based page protection
+└── docs/               # Documentation (SDD artifacts, etc.)
 ```
 
 ### Imports
@@ -104,6 +118,8 @@ Tests are located in the `__tests__/` directory and use React Testing Library.
 - Client components: use `useAuth` hook
 - API routes: wrap with `auth()` middleware check
 - Use `fetchWithAuth` utility from `lib/api-client.ts` for authenticated requests
+- Use `ProtectedPage` component from `lib/ProtectedPage.tsx` for permission-based page protection
+- Use permission system from `lib/permissions.ts` for role-based access control
 
 ### Next.js Specific
 
