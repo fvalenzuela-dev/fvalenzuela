@@ -9,7 +9,7 @@ interface MenuItem {
   href: string;
 }
 
-const menuItems: MenuItem[] = [
+const MENU_ITEMS: MenuItem[] = [
   {
     title: "Dashboard",
     href: "/dashboard",
@@ -19,20 +19,24 @@ const menuItems: MenuItem[] = [
     href: "/generador-ideas",
   },
   {
+    title: "Mis Cuentas",
+    href: "/cuentas",
+  },
+  {
     title: "Contacto",
     href: "/contacto",
   },
 ];
 
-const Navigation = () => {
+const Navigation = (): React.JSX.Element => {
   const pathname = usePathname();
 
   return (
     <nav className="flex gap-1">
-      {menuItems.map((item, index) => {
+      {MENU_ITEMS.map((item, index) => {
         const isActive = pathname === item.href;
         
-        if (item.title === "Generador de Ideas") {
+        if (item.title === "Generador de Ideas" || item.title === "Mis Cuentas") {
           return (
             <SignedIn key={index}>
               <Link

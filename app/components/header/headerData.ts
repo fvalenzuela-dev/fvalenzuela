@@ -10,6 +10,10 @@ export const searchLinks: SearchType[] = [
     href: "/dashboard",
   },
   {
+    title: "Mis Cuentas",
+    href: "/cuentas",
+  },
+  {
     title: "Contacto",
     href: "/contacto",
   },
